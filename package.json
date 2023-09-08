@@ -1,19 +1,17 @@
 {
-  "name": "next-hash-router",
-  "version": "0.1.0",
-  "description": "hash routing in next.js",
-  "main": "build/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "next",
-    "nextjs",
-    "hash",
-    "router",
-    "hash router",
-    "hash routing"
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "author": "devjaewon <devjaewon21@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev:page": "yarn workspace demo-page-router dev",
+    "build": "yarn workspace next-hash-router build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.3",
+    "rollup": "^3.29.0",
+    "typescript": "^5.2.2"
+  }
 }

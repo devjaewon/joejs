@@ -6,3 +6,6 @@
 # NodeJS
 node_modules
 
+# NextJS
+.next
+
