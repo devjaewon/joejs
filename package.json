@@ -1,0 +1,19 @@
+{
+  "name": "next-hash-router",
+  "version": "0.1.0",
+  "description": "hash routing in next.js",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "next",
+    "nextjs",
+    "hash",
+    "router",
+    "hash router",
+    "hash routing"
+  ],
+  "author": "devjaewon <devjaewon21@gmail.com>",
+  "license": "MIT"
+}
