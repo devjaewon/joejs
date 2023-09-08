@@ -3,6 +3,9 @@
 .AppleDouble
 .LSOverride
 
+# Yarn
+yarn-error.log
+
 # NodeJS
 node_modules
 

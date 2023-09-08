@@ -6,7 +6,5 @@ export default function Page() {
     greet();
   }, []);
 
-  return (
-    <div></div>
-  );
+  return <div></div>;
 }
