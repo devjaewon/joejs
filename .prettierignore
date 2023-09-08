@@ -1,3 +1,6 @@
 .lintstagedrc.js
 commitlint.config.js
 next.config.js
+
+**/dist/*.d.ts
+**/dist/*.js

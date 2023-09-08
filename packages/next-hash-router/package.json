@@ -2,7 +2,8 @@
   "name": "next-hash-router",
   "version": "0.1.0",
   "description": "hash routing in next.js",
-  "main": "dist/index.js",
+  "main": "dist/index.min.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "next",
     "nextjs",
