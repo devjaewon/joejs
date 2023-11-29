@@ -1,14 +1,13 @@
 {
-  "name": "next-hash-router",
+  "name": "@joejs/hash-router",
   "version": "0.1.0",
-  "description": "hash routing in next.js",
+  "description": "browser hash router library on vanilla js",
   "main": "dist/index.min.js",
   "types": "dist/index.d.ts",
   "keywords": [
-    "next",
-    "nextjs",
     "hash",
     "router",
+    "routing",
     "hash router",
     "hash routing"
   ],
