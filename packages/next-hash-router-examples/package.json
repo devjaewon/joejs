@@ -1,7 +1,7 @@
 {
-  "name": "demo-page-router",
+  "name": "next-hash-router-examples",
   "version": "0.1.0",
-  "description": "demo for e2e test with next.js page router",
+  "description": "examples for e2e test with next.js page router",
   "scripts": {
     "dev": "next dev"
   },
