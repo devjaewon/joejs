@@ -1,11 +1,3 @@
 {
-  "references": [
-    {
-      "path": "./packages/demo-page-router"
-    },
-    {
-      "path": "./packages/next-hash-router"
-    }
-  ],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,27 @@
+{
+  "name": "@kjojs/hands",
+  "version": "0.1.0",
+  "description": "recognizes mouse, pointer, and touch-based events and delivers refined data",
+  "main": "dist/index.min.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "interaction",
+    "events",
+    "touch",
+    "mouse",
+    "pointer",
+    "axis"
+  ],
+  "author": {
+    "name": "devjaewon",
+    "email": "devjaewon21@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devjaewon/kjojs.git",
+    "directory": "packages/hands"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs"
+  }
+}

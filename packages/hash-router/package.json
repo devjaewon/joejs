@@ -1,5 +1,5 @@
 {
-  "name": "@joejs/hash-router",
+  "name": "@kjojs/hash-router",
   "version": "0.1.0",
   "description": "browser hash router library on vanilla js",
   "main": "dist/index.min.js",
