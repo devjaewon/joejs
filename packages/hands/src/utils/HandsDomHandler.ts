@@ -1,5 +1,5 @@
-import { HandsStyleMap } from "~/types/HandsTypes";
-import { handsBindRequiredError } from "~/errors/errors";
+import { HandsStyleMap } from '~/types/HandsTypes';
+import { handsBindRequiredError } from '~/errors/errors';
 
 export class HandsDomHandler {
   private el: HTMLElement | null = null;

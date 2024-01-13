@@ -1,7 +1,7 @@
-import { HandsDomHandler } from "~/utils/HandsDomHandler";
-import { Hands } from "~/types/Hands";
-import { PanHandsOption } from "./PanHandsOption";
-import { PanHandsContext } from "./PanHandsContext";
+import { HandsDomHandler } from '~/utils/HandsDomHandler';
+import { Hands } from '~/types/Hands';
+import { PanHandsOption } from './PanHandsOption';
+import { PanHandsContext } from './PanHandsContext';
 
 export class PanHands implements Hands {
   private dom = new HandsDomHandler();
