@@ -3,12 +3,15 @@
 .AppleDouble
 .LSOverride
 
-# Yarn
+# Package manager
 yarn-error.log
-
-# NodeJS
 node_modules
 
-# NextJS
-.next
+# Temp sources in local runner
+.rollup.cache
+tsconfig.tsbuildinfo
+**/examples/**
+!**/examples/example_*
 
+# Next.js
+.next

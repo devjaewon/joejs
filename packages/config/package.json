@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "name": "@kjojs/config",
+  "private": true,
+  "description": "configuration for me",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "devjaewon",
+    "email": "devjaewon21@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devjaewon/kjojs.git",
+    "directory": "packages/rollup-plugin-livereload2"
+  },
+  "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "deepmerge": "^4.3.1",
+    "rollup": "^4.9.5",
+    "rollup-plugin-serve": "^1.1.1"
+  },
+  "devDependencies": {}
+}

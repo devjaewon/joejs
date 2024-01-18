@@ -4,6 +4,7 @@
   "description": "recognizes mouse, pointer, and touch-based events and delivers refined data",
   "main": "dist/index.min.js",
   "types": "dist/index.d.ts",
+  "license": "MIT",
   "keywords": [
     "interaction",
     "events",
@@ -22,6 +23,11 @@
     "directory": "packages/hands"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.mjs"
+    "dev:pan": "example=pan rollup -w -c rollup.config.dev.mjs",
+    "build": "rollup -c rollup.config.prod.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rollup-plugin-serve": "^1.1.1"
   }
 }

@@ -3,7 +3,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "license": "MIT",
   "scripts": {
     "dev:page": "yarn workspace demo-page-router dev",
     "build": "yarn workspace next-hash-router build",
@@ -14,7 +13,6 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@rollup/plugin-terser": "^0.4.3",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "eslint": "^8.48.0",
@@ -23,8 +21,6 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "rollup": "^3.29.0",
-    "rollup-plugin-typescript2": "^0.35.0",
     "typescript": "^5.2.2"
   }
 }

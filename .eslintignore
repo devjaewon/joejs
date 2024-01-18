@@ -3,6 +3,7 @@
 commitlint.config.js
 next.config.js
 *.json
+rollup.config.*.mjs
 
 dist/*.d.ts
 dist/*.js

@@ -7,7 +7,7 @@ export class PanHands implements Hands {
   private dom = new HandsDomHandler();
   private context = new PanHandsContext();
 
-  constructor(private opt: PanHandsOption) {}
+  constructor(private opt?: PanHandsOption) {}
 
   enable(): void {
     this.context.disabled = false;
@@ -22,7 +22,7 @@ export class PanHands implements Hands {
     this.dom.bind(element);
     this.dom.initStyles({
       'touch-action': 'pan-x pan-y',
-      ...(this.opt.cssStyles || {}),
+      ...(this.opt?.cssStyles || {}),
     });
   }
 }

@@ -19,10 +19,11 @@
     "jsx": "preserve",
     "incremental": true,
     "declaration": true,
+    "declarationDir": "dist",
     "paths": {
       "~/*": ["./src/*"]
     }
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "rollup.config.mjs"]
+  "exclude": ["node_modules", "dist", "rollup.config.dev.mjs"]
 }
