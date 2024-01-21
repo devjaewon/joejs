@@ -1,0 +1,8 @@
+.rollup.cache
+assets
+examples
+src
+jest.config.mjs
+rollup.config.*.mjs
+tsconfig.json
+tsconfig.tsbuildinfo

@@ -1,14 +1,15 @@
 {
   "name": "@kjojs/eventbus",
   "version": "0.1.0",
-  "description": "universal event bus module",
+  "description": "universal and light(1kb) event bus module",
   "main": "dist/index.min.js",
   "types": "dist/src/index.d.ts",
   "license": "MIT",
   "keywords": [
     "event",
     "event bus",
-    "event channel"
+    "event channel",
+    "event target"
   ],
   "author": {
     "name": "devjaewon",
@@ -19,10 +20,15 @@
     "url": "https://github.com/devjaewon/kjojs.git",
     "directory": "packages/eventbus"
   },
+  "bugs": {
+    "url": "https://github.com/devjaewon/kjojs/issues"
+  },
+  "homepage": "https://github.com/devjaewon/kjojs/tree/main/packages/eventbus#readme",
   "scripts": {
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
     "build": "rollup -c rollup.config.prod.mjs",
-    "test": "jest --config jest.config.mjs"
+    "test": "jest --config jest.config.mjs",
+    "publish": "npm run test && npm run build && npm publish"
   },
   "dependencies": {},
   "devDependencies": {

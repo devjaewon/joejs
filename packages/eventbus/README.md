@@ -1,21 +1,33 @@
 # `@kjojs/eventbus`
 
-universal event bus module
-
-## Getting Started
-
+- universal and light(1kb) event bus module
+- no dependencies
 - typescript type inference supports.
 - simple and light implementation
     - [source](./src/EventBus.ts)
 
+## Installation
+
+```sh
+npm install @kjojs/eventbus --save
+```
+
+## Getting Started
+
 ```ts
-const eventBus = new EventBus().on({
-  a: console.log,
+import EventBus from '@kjojs/eventbus';
+
+const eventBus = new EventBus();
+
+eventBus.on('a', console.log);
+eventBus.on({
   b: console.log,
+  c: console.log,
 });
 
 eventBus.emit('a', 2);
 eventBus.emit('b', 'p');
+eventBus.emit('c', { n: 1 });
 ```
 
 ## Type Inference Support

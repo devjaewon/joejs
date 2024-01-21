@@ -15,7 +15,8 @@ type EventSpecification<D extends object> = {
   [k in keyof D]: EventHandler<D[k]>;
 };
 
-export class EventBus<D extends object = object> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class EventBus<D extends object = any> {
   private _registry: EventRegistry<D> = {} as EventRegistry<D>;
 
   on<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>, life?: number): this;
