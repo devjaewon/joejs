@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "universal event bus module",
   "main": "dist/index.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "license": "MIT",
   "keywords": [
     "event",
@@ -21,8 +21,11 @@
   },
   "scripts": {
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
-    "build": "rollup -c rollup.config.prod.mjs"
+    "build": "rollup -c rollup.config.prod.mjs",
+    "test": "jest --config jest.config.mjs"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@kjojs/config": "1.0.0"
+  }
 }

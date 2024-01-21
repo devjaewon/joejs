@@ -1,7 +1,8 @@
 import merge from 'deepmerge';
+import { resolve } from 'path';
 import { defineConfig } from 'rollup';
 import terser from '@rollup/plugin-terser';
-import typescript from 'rollup-plugin-typescript2';
+import typescript from '@rollup/plugin-typescript';
 
 /**
  * @param {import('rollup').RollupOptionsFunction}

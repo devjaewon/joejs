@@ -1,15 +1,26 @@
-type EventHandler<P> = (p: P) => void;
+interface EventHandler<P> {
+  (p: P): void;
+}
 
-type EventRegistry<D extends object> = { [k in keyof D]: Array<EventHandler<D[k]>> };
+interface EventRegistryItem<P> {
+  life: number;
+  handler: EventHandler<P>;
+}
 
-type EventSpecification<D extends object> = { [k in keyof D]: EventHandler<D[k]> };
+type EventRegistry<D extends object> = {
+  [k in keyof D]: Array<EventRegistryItem<D[k]>>;
+};
+
+type EventSpecification<D extends object> = {
+  [k in keyof D]: EventHandler<D[k]>;
+};
 
 export class EventBus<D extends object = object> {
   private _registry: EventRegistry<D> = {} as EventRegistry<D>;
 
-  on<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>): this;
+  on<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>, life?: number): this;
   on(eventSpecification: EventSpecification<D>): this;
-  on(eventName: unknown, eventHandler?: unknown): this {
+  on(eventName: unknown, eventHandler?: unknown, life?: number): this {
     switch (typeof eventName) {
       case 'string': {
         if (!eventHandler) {
@@ -17,9 +28,13 @@ export class EventBus<D extends object = object> {
         }
 
         const name = eventName as keyof D;
+        const handler = eventHandler as EventHandler<unknown>;
 
         this._registry[name] = this._registry[name] || [];
-        this._registry[name].push(eventHandler as EventHandler<unknown>);
+        this._registry[name].push({
+          life: life ?? -1,
+          handler,
+        });
         break;
       }
       case 'object': {
@@ -30,6 +45,37 @@ export class EventBus<D extends object = object> {
           const handler = entry[1] as EventHandler<unknown>;
 
           this.on(name, handler);
+        });
+        break;
+      }
+    }
+
+    return this;
+  }
+
+  once<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>): this;
+  once(eventSpecification: EventSpecification<D>): this;
+  once(eventName: unknown, eventHandler?: unknown): this {
+    switch (typeof eventName) {
+      case 'string': {
+        if (!eventHandler) {
+          throw new Error('[@kjojs/hands] argument eventHandler required!');
+        }
+
+        const name = eventName as keyof D;
+        const handler = eventHandler as EventHandler<unknown>;
+
+        this.on(name, handler, 1);
+        break;
+      }
+      case 'object': {
+        const spec = eventName as EventSpecification<D>;
+
+        Object.entries(spec).forEach(entry => {
+          const name = entry[0] as keyof D;
+          const handler = entry[1] as EventHandler<unknown>;
+
+          this.on(name, handler, 1);
         });
         break;
       }
@@ -54,7 +100,7 @@ export class EventBus<D extends object = object> {
         if (!eventHandler) {
           delete this._registry[name];
         } else if (this._registry[name]) {
-          const i = (this._registry[name] || []).indexOf(eventHandler as EventHandler<unknown>);
+          const i = (this._registry[name] || []).findIndex(({ handler }) => handler === eventHandler);
 
           if (i >= 0) {
             if (this._registry[name].length === 1) {
@@ -72,10 +118,25 @@ export class EventBus<D extends object = object> {
   }
 
   emit<N extends keyof D>(eventName: N, eventPayload?: D[N]): void {
-    const handlers = this._registry[eventName] || [];
+    const nextRegistryItems: Array<EventRegistryItem<D[N]>> = [];
+    const registryItems = this._registry[eventName] || [];
 
-    handlers.forEach(handler => {
-      handler(eventPayload!);
-    });
+    for (let i = 0; i < registryItems.length; i++) {
+      const registryItem = registryItems[i];
+
+      if (registryItem.life > 0) {
+        registryItem.life--;
+      }
+      registryItem.handler(eventPayload!);
+      if (registryItem.life !== 0) {
+        nextRegistryItems.push(registryItem);
+      }
+    }
+
+    if (nextRegistryItems.length > 0) {
+      this._registry[eventName] = nextRegistryItems;
+    } else {
+      delete this._registry[eventName];
+    }
   }
 }

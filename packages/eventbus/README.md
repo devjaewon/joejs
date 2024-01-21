@@ -5,7 +5,8 @@ universal event bus module
 ## Getting Started
 
 - typescript type inference supports.
-- simple and light implementation. [source](./src/EventBus.ts)
+- simple and light implementation
+    - [source](./src/EventBus.ts)
 
 ```ts
 const eventBus = new EventBus().on({
@@ -43,3 +44,15 @@ const eventBus = new EventBus<EventDefinition>().on({
 <img src="./assets/readme_typeinference_1.png" width="600">
 
 <img src="./assets/readme_typeinference_2.png" width="600">
+
+## Specifications
+
+- [spec code](./src/EventBus.spec.ts)
+- `.on(eventName, eventHandler, life?)`
+- `.on(eventSpecification)`
+- `.once(eventName, eventHandler)`
+- `.once(eventSpecification)`
+- `.off()`
+- `.off(eventName)`
+- `.off(eventName, eventHandler)`
+- `.emit(eventName, eventPayload?)`
