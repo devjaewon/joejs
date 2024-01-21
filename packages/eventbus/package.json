@@ -1,8 +1,8 @@
 {
   "name": "@kjojs/eventbus",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "universal and light(1kb) event bus module",
-  "main": "dist/index.min.js",
+  "main": "dist/index.js",
   "types": "dist/src/index.d.ts",
   "license": "MIT",
   "keywords": [
@@ -28,7 +28,7 @@
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
     "build": "rollup -c rollup.config.prod.mjs",
     "test": "jest --config jest.config.mjs",
-    "publish": "npm run test && npm run build && npm publish"
+    "prepublish": "npm run test && npm run build"
   },
   "dependencies": {},
   "devDependencies": {

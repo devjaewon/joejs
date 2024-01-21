@@ -1,9 +1,11 @@
 import merge from 'deepmerge';
 import { resolve } from 'path';
 import { defineConfig } from 'rollup';
-import typescript from '@rollup/plugin-typescript';
-import livereload from '@kjojs/rollup-plugin-livereload2';
-import serve from 'rollup-plugin-serve';
+import typescriptPlugin from '@rollup/plugin-typescript';
+import nodeResolvePlugin from '@rollup/plugin-node-resolve';
+import commonjsPlugin from '@rollup/plugin-commonjs';
+import livereloadPlugin from 'rollup-plugin-livereload';
+import servePlugin from 'rollup-plugin-serve';
 
 /**
  * @param {import('rollup').RollupOptionsFunction}
@@ -22,20 +24,25 @@ export default (callback) =>
         {
           file: resolve(cwd, 'examples', 'index.js'),
           format: 'iife',
-          sourcemap: true,
+          sourcemap: false,
         },
       ],
       plugins: [
-        typescript({
+        typescriptPlugin({
           tsconfig: resolve(cwd, 'tsconfig.json'),
           outputToFilesystem: true,
         }),
-        serve({
+        nodeResolvePlugin({
+          browser: true,
+          dedupe: ['@kjojs/eventbus'],
+          extensions: ['.ts', '.js']
+        }),
+        servePlugin({
           contentBase: ['examples'],
           host: '0.0.0.0',
           port: 3000,
         }),
-        livereload({
+        livereloadPlugin({
           port: 3001,
           delay: 300
         }),
@@ -43,6 +50,7 @@ export default (callback) =>
     };
 
     const userConfig = callback?.(cliArgs) || {};
+    const config = merge(baseConfig, userConfig);
 
-    return merge(baseConfig, userConfig);
+    return config;
   });
