@@ -67,4 +67,7 @@ const eventBus = new EventBus<EventDefinition>().on({
 - `.off()`
 - `.off(eventName)`
 - `.off(eventName, eventHandler)`
+- `.has()`
+- `.has(eventName)`
+- `.has(eventName, eventHandler)`
 - `.emit(eventName, eventPayload?)`

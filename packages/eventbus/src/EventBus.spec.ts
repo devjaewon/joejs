@@ -118,4 +118,21 @@ describe('EventBus @UnitTest', () => {
 
     expect(emiited).toEqual(expected);
   });
+
+  it('[ .has() ] .has() can check that events are registered at least one', () => {
+    eventBus.on('n', () => {});
+
+    expect(eventBus.has()).toBe(true);
+
+    eventBus.off();
+
+    expect(eventBus.has()).toBe(false);
+  });
+
+  it('[ .has() ] .has() can check that one event is registered at least one', () => {
+    eventBus.on('n', () => {});
+
+    expect(eventBus.has('n')).toBe(true);
+    expect(eventBus.has('greet')).toBe(false);
+  });
 });

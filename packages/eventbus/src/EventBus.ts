@@ -39,6 +39,10 @@ export class EventBus<D extends object = any> {
         break;
       }
       case 'object': {
+        if (!eventName) {
+          throw new Error('[@kjojs/hands] argument eventSpecification required!');
+        }
+
         const spec = eventName as EventSpecification<D>;
 
         Object.entries(spec).forEach(entry => {
@@ -139,5 +143,25 @@ export class EventBus<D extends object = any> {
     } else {
       delete this._registry[eventName];
     }
+  }
+
+  has(): boolean;
+  has<N extends keyof D>(eventName: N): boolean;
+  has<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>): boolean;
+  has(eventName?: unknown, eventHandler?: unknown): boolean {
+    if (!eventName) {
+      return Object.keys(this._registry).length > 0;
+    }
+    const name = eventName as keyof D;
+    const isItems = !!this._registry[name] && this._registry[name].length > 0;
+
+    if (!eventHandler) {
+      return isItems;
+    }
+    if (isItems) {
+      return this._registry[name].findIndex(item => item.handler === eventHandler) >= 0;
+    }
+
+    return false;
   }
 }
