@@ -1,65 +1,37 @@
-# `@kjojs/eventbus`
+# `@kjojs/idom`
 
-- universal and light(1kb) event bus module
-- no dependencies
-- typescript type inference supports.
-- simple and light implementation
-    - [source](./src/EventBus.ts)
+- provides a concise and intuitive dom manipulation API
+- like jquery, but only dom handling (so light)
 
 ## Installation
 
 ```sh
-npm install @kjojs/eventbus --save
+npm install @kjojs/idom --save
 ```
 
 ## Getting Started
 
-```ts
-import EventBus from '@kjojs/eventbus';
+```js
+import idom from '@kjojs/idom';
 
-const eventBus = new EventBus();
+const popupDom = idom(document.getElementById('id'));
 
-eventBus.on('a', console.log);
-eventBus.on({
-  b: console.log,
-  c: console.log,
+popupDom.css({
+  'position': 'fixed',
+  'top': 0,
+  'right': 0,
+  'bottom': 0,
+  'left': 0,
+  'background-color': 'rgba(0, 0, 0, 0.8)'
+}).on({
+  'click': () => {
+    console.log('clicked!');
+  },
 });
-
-eventBus.emit('a', 2);
-eventBus.emit('b', 'p');
-eventBus.emit('c', { n: 1 });
 ```
 
-## Type Inference Support
+## Features
 
-```ts
-interface EventDefinition {
-  a: 1 | 2 | 3;
-  b: 'p';
-}
-
-const eventBus = new EventBus<EventDefinition>().on({
-  a: console.log,
-  b: console.log,
-});
-
-/**
- * or
- *
- * new EventBus<{
- *   a: 1 | 2 | 3;
- *   b: 'p';
- * }>();
- */
-```
-
-<img src="./assets/readme_typeinference_1.png" width="600">
-
-<img src="./assets/readme_typeinference_2.png" width="600">
-
-## Specifications
-
-- [spec code](./src/EventBus.spec.ts)
 - `.on(eventName, eventHandler, life?)`
 - `.on(eventSpecification)`
 - `.once(eventName, eventHandler)`
@@ -67,4 +39,12 @@ const eventBus = new EventBus<EventDefinition>().on({
 - `.off()`
 - `.off(eventName)`
 - `.off(eventName, eventHandler)`
-- `.emit(eventName, eventPayload?)`
+- TODO:
+    - `.css(cssProperty)`
+    - `.css(cssProperty, cssValue)`
+    - `.css(cssMap)`
+    - `.attr(attrName)`
+    - `.attr(attrName, attrValue)`
+    - `.attr(attrMap)`
+    - `.data(dataKey)`
+    - `.data(dataKey, dataValue)`
