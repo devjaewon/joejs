@@ -1,37 +1,63 @@
-import { HandsStyleMap } from '~/types/HandsTypes';
 import { handsBindRequiredError } from '~/errors/errors';
 
+export type HandsDomStyleMap = Record<string, string | number | undefined | null>;
+
+export type HandsDomEventName = string;
+
+export type HandsDomEventHandler<E extends Event> = (e: E) => void;
+
 export class HandsDomHandler {
-  private el: HTMLElement | null = null;
-  private initialStyles: HandsStyleMap | null = null;
-  private removedStyles: HandsStyleMap | null = null;
+  private _initialStyles: HandsDomStyleMap | null = null;
+  private _removedStyles: HandsDomStyleMap | null = null;
+  private _eventsMap: Record<HandsDomEventName, Array<HandsDomEventHandler<Event>>> = {};
 
-  bind(element: HTMLElement) {
-    this.el = element;
+  constructor(private el: HTMLElement) {}
+
+  on<E extends Event>(eventName: string, eventHandler: HandsDomEventHandler<E>) {
+    this._eventsMap[eventName] = this._eventsMap[eventName] || [];
+    this._eventsMap[eventName].push(eventHandler as HandsDomEventHandler<Event>);
+    this.el.addEventListener(eventName, eventHandler as EventListenerOrEventListenerObject);
   }
 
-  initStyles(cssStyles: HandsStyleMap) {
-    if (this.initialStyles) {
-      this.restoreStyles();
-    }
-    this.initialStyles = cssStyles;
-    this.removedStyles = {};
-    this.setStylesByMap(cssStyles, true);
-  }
-
-  restoreStyles() {
-    if (this.initialStyles) {
-      const initialStylesProperties = Object.keys(this.initialStyles);
-      this.removeStyles(initialStylesProperties);
-      this.initialStyles = null;
-    }
-    if (this.removedStyles) {
-      this.setStylesByMap(this.removedStyles);
-      this.removedStyles = null;
+  off<E extends Event>(eventName: string, eventHandler: HandsDomEventHandler<E>) {
+    const i = (this._eventsMap[eventName] || []).indexOf(eventHandler as HandsDomEventHandler<Event>);
+    if (i >= 0) {
+      this._eventsMap[eventName].splice(i, 1);
+      this.el.removeEventListener(eventName, eventHandler as EventListenerOrEventListenerObject);
     }
   }
 
-  private setStylesByMap(styleMap: HandsStyleMap, remember?: boolean) {
+  destroy() {
+    Object.keys(this._eventsMap).forEach(eventName => {
+      (this._eventsMap[eventName] || []).forEach(eventHandler => {
+        this.el.removeEventListener(eventName, eventHandler as EventListenerOrEventListenerObject);
+      });
+    });
+    this._restoreStyles();
+  }
+
+  initStyles(cssStyles: HandsDomStyleMap) {
+    if (this._initialStyles) {
+      this._restoreStyles();
+    }
+    this._initialStyles = cssStyles;
+    this._removedStyles = {};
+    this._setStylesByMap(cssStyles, true);
+  }
+
+  private _restoreStyles() {
+    if (this._initialStyles) {
+      const _initialStylesProperties = Object.keys(this._initialStyles);
+      this._removeStyles(_initialStylesProperties);
+      this._initialStyles = null;
+    }
+    if (this._removedStyles) {
+      this._setStylesByMap(this._removedStyles);
+      this._removedStyles = null;
+    }
+  }
+
+  private _setStylesByMap(styleMap: HandsDomStyleMap, remember?: boolean) {
     const el = this.el;
     if (!el) {
       throw handsBindRequiredError;
@@ -45,8 +71,8 @@ export class HandsDomHandler {
 
       if (remember) {
         const existedValue = el.style.getPropertyValue(property);
-        if (existedValue && this.removedStyles) {
-          this.removedStyles[property] = existedValue;
+        if (existedValue && this._removedStyles) {
+          this._removedStyles[property] = existedValue;
         }
       }
 
@@ -54,7 +80,7 @@ export class HandsDomHandler {
     });
   }
 
-  private removeStyles(styleProperties: string[]) {
+  private _removeStyles(styleProperties: string[]) {
     const el = this.el;
     if (!el) {
       throw handsBindRequiredError;

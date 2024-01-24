@@ -1,18 +1,18 @@
-import { PanHands } from '../src';
+import { Pan, TouchSource } from '../src';
 
 async function main() {
-  initHandsInstance();
+  init();
 }
 
-function initHandsInstance() {
-  const targetElement = document.getElementById('target_fixed');
-  if (!targetElement) {
-    return;
+function init() {
+  const element = document.getElementById('target');
+  const source = element ? new TouchSource(element) : null;
+
+  if (source) {
+    new Pan().bind(source).on('input', e => {
+      console.log(e);
+    });
   }
-
-  const panHands = new PanHands();
-
-  panHands.bind(targetElement);
 }
 
 main();

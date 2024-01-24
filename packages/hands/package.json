@@ -26,8 +26,10 @@
     "dev:pan": "example=pan rollup -w -c rollup.config.dev.mjs",
     "build": "rollup -c rollup.config.prod.mjs"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@kjojs/eventbus": "^0.1.0"
+  },
   "devDependencies": {
-    "rollup-plugin-serve": "^1.1.1"
+    "@kjojs/config": "1.0.0"
   }
 }

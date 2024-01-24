@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hands.js Pan Examples</title>
+  <title>@kjojs/hands Pan Examples</title>
   <style>
-    #target_fixed {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: #545454;
+    .content {
+      height: 50vh;
     }
-    #target_fixed .txt {
+    #target {
+      position: relative;
+      background-color: grey;
+    }
+    #target .txt {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -24,9 +23,11 @@
   </style>
 </head>
 <body>
-  <div id="target_fixed">
+  <div class="content"></div>
+  <div id="target" class="content">
     <span class="txt">Pan Here.</span>
   </div>
+  <div class="content"></div>
   <script src="./index.js"></script>
 </body>
 </html>
