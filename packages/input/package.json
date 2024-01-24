@@ -1,9 +1,10 @@
 {
-  "name": "@kjojs/hands",
+  "name": "@kjojs/input",
   "version": "0.1.0",
   "description": "recognizes mouse, pointer, and touch-based events and delivers refined data",
-  "main": "dist/index.min.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/src/index.d.ts",
+  "type": "module",
   "license": "MIT",
   "keywords": [
     "interaction",
@@ -20,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/devjaewon/kjojs.git",
-    "directory": "packages/hands"
+    "directory": "packages/input"
   },
   "scripts": {
     "dev:pan": "example=pan rollup -w -c rollup.config.dev.mjs",

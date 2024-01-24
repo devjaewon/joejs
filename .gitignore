@@ -12,6 +12,7 @@ node_modules
 tsconfig.tsbuildinfo
 **/examples/**
 !**/examples/example_*
+!**/examples/favicon.ico
 
 # Next.js
 .next

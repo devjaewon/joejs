@@ -19,6 +19,7 @@ export default (callback) =>
      */
     const baseConfig = {
       input: resolve(cwd, 'examples', 'index.ts'),
+      preserveSymlinks: true,
       watch: true,
       output: [
         {
@@ -33,9 +34,9 @@ export default (callback) =>
           outputToFilesystem: true,
         }),
         nodeResolvePlugin({
+          mainFields: ['module', 'main'],
           browser: true,
-          dedupe: ['@kjojs/eventbus'],
-          extensions: ['.ts', '.js']
+          extensions: ['.ts', '.js'],
         }),
         servePlugin({
           contentBase: ['examples'],
