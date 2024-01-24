@@ -1,0 +1,6 @@
+.rollup.cache
+examples
+src
+rollup.config.*.mjs
+tsconfig.json
+tsconfig.tsbuildinfo
