@@ -39,13 +39,12 @@ popupDom.css({
 - `.off()`
 - `.off(eventName)`
 - `.off(eventName, eventHandler)`
-- TODO:
-    - `.css(cssProperty)`
-    - `.css(cssProperty, cssValue)`
-    - `.css(cssMap)`
-    - `.attr(attrName)`
-    - `.attr(attrName, attrValue)`
-    - `.attr(attrMap)`
-    - `.data(dataKey)`
-    - `.data(dataKey, dataValue)`
-    - `.data(dataMap)`
+- `.css(cssProperty)`
+- `.css(cssProperty, cssValue)`
+- `.css(cssMap)`
+- `.attr(attrName)`
+- `.attr(attrName, attrValue)`
+- `.attr(attrMap)`
+- `.data(dataKey)`
+- `.data(dataKey, dataValue)`
+- `.data(dataMap)`
