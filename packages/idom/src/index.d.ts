@@ -13,11 +13,17 @@ export interface IDomEventManager {
 }
 
 export interface IDomStyleManager {
-  css(cssProperty: string): string;
+  css(cssProperty: string): string | null;
   css<T>(cssProperty: string, cssValue: T): void;
   css(cssMap: Record<string, string>): void;
 }
 
-export class IDom implements IDomEventManager, IDomStyleManager {}
+export interface IDomAttributeManager {
+  attr(attrName: string): string | null;
+  attr(attrName: string, attrValue: string): void;
+  attr(attrMap: Record<string, string>): void;
+}
+
+export class IDom implements IDomEventManager, IDomAttributeManager, IDomStyleManager {}
 
 export default function (element: HTMLElement): IDom;

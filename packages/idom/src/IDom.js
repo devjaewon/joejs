@@ -1,6 +1,7 @@
 import EventBus from '@kjojs/eventbus';
 
 /**
+ * @typedef {import('./index').IDom}
  * @param {HTMLElement} element
  */
 export function IDom(element) {

@@ -4,7 +4,7 @@ IDom.prototype.css = function (cssMapOrCssProperty, cssValue) {
   switch (typeof cssMapOrCssProperty) {
     case 'string': {
       if (cssValue === undefined) {
-        return this._element.style.getPropertyValue(cssMapOrCssProperty) || '';
+        return this._element.style.getPropertyValue(cssMapOrCssProperty) || null;
       } else {
         this._element.style.setProperty(cssMapOrCssProperty, cssValue);
       }
