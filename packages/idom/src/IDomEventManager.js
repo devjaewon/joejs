@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 import { IDom } from './IDom';
 
 IDom.prototype.on = function (eventName, eventHandler, life) {
@@ -64,9 +63,7 @@ IDom.prototype._clearEventHandler = function () {
 };
 
 IDom.prototype._handleEvent = function (eventName) {
-  const self = this;
-
-  return function (e) {
-    self._eventBus.emit(eventName, e);
+  return e => {
+    this._eventBus.emit(eventName, e);
   };
 };
