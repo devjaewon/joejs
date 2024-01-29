@@ -48,3 +48,4 @@ popupDom.css({
     - `.attr(attrMap)`
     - `.data(dataKey)`
     - `.data(dataKey, dataValue)`
+    - `.data(dataMap)`

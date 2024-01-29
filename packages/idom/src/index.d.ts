@@ -1,4 +1,6 @@
-export type IDomCssMap = Record<string, string | number | undefined | null>;
+export type IDomCssValue = number | string | null;
+
+export type IDomDataValue = number | string | boolean | null;
 
 export interface IDomEventManager {
   on<E extends Event>(eventName: string, eventHandler: (e: E) => void, life?: number | undefined): this;
@@ -13,15 +15,19 @@ export interface IDomEventManager {
 }
 
 export interface IDomStyleManager {
-  css(cssProperty: string): string | null;
-  css<T>(cssProperty: string, cssValue: T): void;
-  css(cssMap: Record<string, string>): void;
+  css<V extends IDomCssValue>(cssProperty: string): V;
+  css<V extends IDomCssValue>(cssProperty: string, cssValue: V): void;
+  css(cssMap: Record<string, IDomCssValue>): void;
 }
 
 export interface IDomAttributeManager {
   attr(attrName: string): string | null;
-  attr(attrName: string, attrValue: string): void;
-  attr(attrMap: Record<string, string>): void;
+  attr(attrName: string, attrValue: string | null): void;
+  attr(attrMap: Record<string, string | null>): void;
+  data<V extends IDomDataValue>(dataKey: string): V;
+  data<V extends IDomDataValue>(dataKey: string, _: undefined, opt?: { noTypeConversion?: boolean }): V;
+  data(dataKey: string, dataValue: IDomDataValue): void;
+  data(dataMap: Record<string, IDomDataValue>): void;
 }
 
 export class IDom implements IDomEventManager, IDomAttributeManager, IDomStyleManager {}
