@@ -30,6 +30,13 @@ export interface IDomAttributeManager {
   data(dataMap: Record<string, IDomDataValue>): void;
 }
 
-export class IDom implements IDomEventManager, IDomAttributeManager, IDomStyleManager {}
+export interface IDomUtilManager {
+  isEmpty(): boolean;
+  each(callback: (element: HTMLElement) => void);
+}
 
-export default function (element: HTMLElement): IDom;
+export interface IDom extends IDomEventManager, IDomAttributeManager, IDomStyleManager, IDomUtilManager {}
+
+type SelectorString = string;
+
+export default function (elements: HTMLElement | Array<HTMLElement> | SelectorString): IDom;

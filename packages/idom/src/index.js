@@ -1,4 +1,8 @@
 import { IDom } from './IDom';
+import './IDomAttributeManager';
+import './IDomEventManager';
+import './IDomStyleManager';
+import './IDomUtilManager';
 
 export * from './IDom';
 

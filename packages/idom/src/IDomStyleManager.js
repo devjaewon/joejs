@@ -25,13 +25,17 @@ IDom.prototype.css = function (cssMapOrCssProperty, cssValue) {
 };
 
 IDom.prototype._getCssValue = function (cssKey) {
-  return this._element.style.getPropertyValue(cssKey) || null;
+  if (this.isEmpty()) {
+    return null;
+  }
+
+  return this._elements[0].style.getPropertyValue(cssKey) || null;
 };
 
 IDom.prototype._removeCssValue = function (cssKey) {
-  this._element.style.removeProperty(cssKey);
+  this.each(element => element.style.removeProperty(cssKey));
 };
 
 IDom.prototype._setCssValue = function (cssKey, cssValue) {
-  this._element.style.setProperty(cssKey, cssValue);
+  this.each(element => element.style.setProperty(cssKey, cssValue));
 };

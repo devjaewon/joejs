@@ -1,7 +1,6 @@
 import { IDom } from './IDom';
 
 IDom.prototype.on = function (eventName, eventHandler, life) {
-  this._eventBus.on(eventName, eventHandler, life);
   switch (typeof eventName) {
     case 'string': {
       this._checkAndAttachEventHandler(eventName);
@@ -14,6 +13,7 @@ IDom.prototype.on = function (eventName, eventHandler, life) {
       break;
     }
   }
+  this._eventBus.on(eventName, eventHandler, life);
 
   return this;
 };
@@ -39,16 +39,16 @@ IDom.prototype._checkAndAttachEventHandler = function (eventName) {
   if (!this._eventBus.has(eventName)) {
     const handler = this._handleEvent(eventName);
 
-    this._element.addEventListener(eventName, handler);
+    this.each(element => element.addEventListener(eventName, handler));
     this._eventMap[eventName] = handler;
   }
 };
 
 IDom.prototype._checkAndDetachEventHandler = function (eventName) {
-  if (this._eventBus.has(eventName)) {
+  if (!this._eventBus.has(eventName)) {
     const handler = this._eventMap[eventName];
 
-    this._element.removeEventListener(eventName, handler);
+    this.each(element => element.removeEventListener(eventName, handler));
   }
 };
 
@@ -57,7 +57,7 @@ IDom.prototype._clearEventHandler = function () {
     const handler = this._eventMap[eventName];
 
     if (handler) {
-      this._element.removeEventListener(eventName, handler);
+      this.each(element => element.removeEventListener(eventName, handler));
     }
   });
 };

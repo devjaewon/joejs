@@ -49,19 +49,27 @@ IDom.prototype.data = function (dataMapOrDataKey, dataValue, opt) {
 };
 
 IDom.prototype._getAttrValue = function (attrName) {
-  return this._element.getAttribute(attrName) || null;
+  if (this.isEmpty()) {
+    return null;
+  }
+
+  return this._elements[0].getAttribute(attrName) || null;
 };
 
 IDom.prototype._removeAttrValue = function (attrName) {
-  this._element.removeAttribute(attrName);
+  this.each(element => element.removeAttribute(attrName));
 };
 
 IDom.prototype._setAttrValue = function (attrName, attrValue) {
-  this._element.setAttribute(attrName, attrValue);
+  this.each(element => element.setAttribute(attrName, attrValue));
 };
 
 IDom.prototype._getDataValue = function (dataKey, opt) {
-  const value = this._element.dataset[dataKey] || null;
+  if (this.isEmpty()) {
+    return null;
+  }
+
+  const value = this._elements[0].dataset[dataKey] || null;
   if (!value || (opt && opt.noTypeConversion)) {
     return value;
   }
@@ -82,9 +90,13 @@ IDom.prototype._getDataValue = function (dataKey, opt) {
 };
 
 IDom.prototype._removeDataValue = function (dataKey) {
-  delete this._element.dataset[dataKey];
+  this.each(element => {
+    delete element.dataset[dataKey];
+  });
 };
 
 IDom.prototype._setDataValue = function (dataKey, dataValue) {
-  this._element.dataset[dataKey] = dataValue.toString();
+  this.each(element => {
+    element.dataset[dataKey] = dataValue.toString();
+  });
 };
