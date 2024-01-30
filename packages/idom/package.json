@@ -1,6 +1,6 @@
 {
   "name": "@kjojs/idom",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "provides a concise and intuitive dom manipulation API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,8 @@
   "homepage": "https://github.com/devjaewon/kjojs/tree/main/packages/idom#readme",
   "scripts": {
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
-    "build": "rollup -c rollup.config.prod.mjs && cp src/index.d.ts dist/index.d.ts"
+    "build": "rollup -c rollup.config.prod.mjs && cp src/index.d.ts dist/index.d.ts",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "@kjojs/eventbus": "^1.1.0"
