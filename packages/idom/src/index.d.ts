@@ -16,18 +16,18 @@ export interface IDomEventManager {
 
 export interface IDomStyleManager {
   css<V extends IDomCssValue>(cssProperty: string): V;
-  css<V extends IDomCssValue>(cssProperty: string, cssValue: V): void;
-  css(cssMap: Record<string, IDomCssValue>): void;
+  css<V extends IDomCssValue>(cssProperty: string, cssValue: V): this;
+  css(cssMap: Record<string, IDomCssValue>): this;
 }
 
 export interface IDomAttributeManager {
   attr(attrName: string): string | null;
-  attr(attrName: string, attrValue: string | null): void;
-  attr(attrMap: Record<string, string | null>): void;
+  attr(attrName: string, attrValue: string | null): this;
+  attr(attrMap: Record<string, string | null>): this;
   data<V extends IDomDataValue>(dataKey: string): V;
   data<V extends IDomDataValue>(dataKey: string, _: undefined, opt?: { noTypeConversion?: boolean }): V;
-  data(dataKey: string, dataValue: IDomDataValue): void;
-  data(dataMap: Record<string, IDomDataValue>): void;
+  data(dataKey: string, dataValue: IDomDataValue): this;
+  data(dataMap: Record<string, IDomDataValue>): this;
 }
 
 export interface IDomUtilManager {

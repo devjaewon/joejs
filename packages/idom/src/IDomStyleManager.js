@@ -7,14 +7,17 @@ IDom.prototype.css = function (cssMapOrCssProperty, cssValue) {
         case undefined:
           return this._getCssValue(cssMapOrCssProperty);
         case null:
-          return this._removeCssValue(cssMapOrCssProperty);
+          this._removeCssValue(cssMapOrCssProperty);
+          break;
         default:
-          return this._setCssValue(cssMapOrCssProperty, cssValue);
+          this._setCssValue(cssMapOrCssProperty, cssValue);
+          break;
       }
+      break;
     }
     case 'object': {
       if (cssMapOrCssProperty === null) {
-        return;
+        return this;
       }
       Object.entries(cssMapOrCssProperty).forEach(([cssPropery, cssValue]) => {
         this.css(cssPropery, cssValue);
@@ -22,6 +25,8 @@ IDom.prototype.css = function (cssMapOrCssProperty, cssValue) {
       break;
     }
   }
+
+  return this;
 };
 
 IDom.prototype._getCssValue = function (cssKey) {

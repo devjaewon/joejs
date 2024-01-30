@@ -7,14 +7,17 @@ IDom.prototype.attr = function (attrMapOrAttrName, attrValue) {
         case undefined:
           return this._getAttrValue(attrMapOrAttrName);
         case null:
-          return this._removeAttrValue(attrMapOrAttrName);
+          this._removeAttrValue(attrMapOrAttrName);
+          break;
         default:
-          return this._setAttrValue(attrMapOrAttrName, attrValue);
+          this._setAttrValue(attrMapOrAttrName, attrValue);
+          break;
       }
+      break;
     }
     case 'object': {
       if (attrMapOrAttrName === null) {
-        return;
+        return this;
       }
       Object.entries(attrMapOrAttrName).forEach(([attrName, attrValue]) => {
         this.attr(attrName, attrValue);
@@ -22,6 +25,8 @@ IDom.prototype.attr = function (attrMapOrAttrName, attrValue) {
       break;
     }
   }
+
+  return this;
 };
 
 IDom.prototype.data = function (dataMapOrDataKey, dataValue, opt) {
@@ -31,21 +36,26 @@ IDom.prototype.data = function (dataMapOrDataKey, dataValue, opt) {
         case undefined:
           return this._getDataValue(dataMapOrDataKey, opt);
         case null:
-          return this._removeDataValue(dataMapOrDataKey);
+          this._removeDataValue(dataMapOrDataKey);
+          break;
         default:
-          return this._setDataValue(dataMapOrDataKey, dataValue);
+          this._setDataValue(dataMapOrDataKey, dataValue);
+          break;
       }
+      break;
     }
     case 'object': {
       if (dataMapOrDataKey === null) {
-        return;
+        return this;
       }
       Object.entries(dataMapOrDataKey).forEach(([attrName, attrValue]) => {
         this.data(attrName, attrValue);
       });
-      return;
+      break;
     }
   }
+
+  return this;
 };
 
 IDom.prototype._getAttrValue = function (attrName) {
