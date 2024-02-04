@@ -13,7 +13,7 @@ IDom.prototype.on = function (eventName, eventHandler, life) {
       break;
     }
   }
-  this._eventBus.on(eventName, eventHandler, life);
+  this._evbus.on(eventName, eventHandler, life);
 
   return this;
 };
@@ -25,7 +25,7 @@ IDom.prototype.once = function (eventName, eventHandler) {
 };
 
 IDom.prototype.off = function (eventName, eventHandler) {
-  this._eventBus.off(eventName, eventHandler);
+  this._evbus.off(eventName, eventHandler);
   if (!eventName) {
     this._clearEventHandler();
   } else {
@@ -36,25 +36,25 @@ IDom.prototype.off = function (eventName, eventHandler) {
 };
 
 IDom.prototype._checkAndAttachEventHandler = function (eventName) {
-  if (!this._eventBus.has(eventName)) {
+  if (!this._evbus.has(eventName)) {
     const handler = this._handleEvent(eventName);
 
     this.each(element => element.addEventListener(eventName, handler));
-    this._eventMap[eventName] = handler;
+    this._evmap[eventName] = handler;
   }
 };
 
 IDom.prototype._checkAndDetachEventHandler = function (eventName) {
-  if (!this._eventBus.has(eventName)) {
-    const handler = this._eventMap[eventName];
+  if (!this._evbus.has(eventName)) {
+    const handler = this._evmap[eventName];
 
     this.each(element => element.removeEventListener(eventName, handler));
   }
 };
 
 IDom.prototype._clearEventHandler = function () {
-  Object.keys(this._eventMap).forEach(eventName => {
-    const handler = this._eventMap[eventName];
+  Object.keys(this._evmap).forEach(eventName => {
+    const handler = this._evmap[eventName];
 
     if (handler) {
       this.each(element => element.removeEventListener(eventName, handler));
@@ -64,6 +64,6 @@ IDom.prototype._clearEventHandler = function () {
 
 IDom.prototype._handleEvent = function (eventName) {
   return e => {
-    this._eventBus.emit(eventName, e);
+    this._evbus.emit(eventName, e);
   };
 };

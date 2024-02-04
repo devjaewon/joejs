@@ -63,7 +63,7 @@ IDom.prototype._getAttrValue = function (attrName) {
     return null;
   }
 
-  return this._elements[0].getAttribute(attrName) || null;
+  return this._el[0].getAttribute(attrName) || null;
 };
 
 IDom.prototype._removeAttrValue = function (attrName) {
@@ -79,7 +79,7 @@ IDom.prototype._getDataValue = function (dataKey, opt) {
     return null;
   }
 
-  const value = this._elements[0].dataset[dataKey] || null;
+  const value = this._el[0].dataset[dataKey] || null;
   if (!value || (opt && opt.noTypeConversion)) {
     return value;
   }

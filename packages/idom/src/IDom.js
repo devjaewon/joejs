@@ -5,9 +5,9 @@ import EventBus from '@kjojs/eventbus';
  * @param {HTMLElement | Array<HTMLElement> | string} element
  */
 export function IDom(elements) {
-  this._elements = this._initElements(elements);
-  this._eventBus = new EventBus();
-  this._eventMap = {};
+  this._el = this._initElements(elements);
+  this._evbus = new EventBus();
+  this._evmap = {};
 }
 
 IDom.prototype._initElements = function (elements) {
@@ -16,9 +16,10 @@ IDom.prototype._initElements = function (elements) {
       return Array.prototype.slice.call(document.querySelectorAll(elements));
     }
     case 'object': {
-      if (Array.isArray() && elements.every(element => element instanceof Element)) {
+      if (Array.isArray(elements) && elements.every(element => element instanceof Element)) {
         return elements;
       }
+      console.log(elements);
       if (elements instanceof Element) {
         return [elements];
       }

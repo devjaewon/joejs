@@ -1,9 +1,9 @@
 import { IDom } from './IDom';
 
 IDom.prototype.each = function (callback) {
-  this._elements.forEach(callback);
+  this._el.forEach(callback);
 };
 
 IDom.prototype.isEmpty = function () {
-  return this._elements.length === 0;
+  return this._el.length === 0;
 };

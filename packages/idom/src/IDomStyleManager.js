@@ -34,7 +34,7 @@ IDom.prototype._getCssValue = function (cssKey) {
     return null;
   }
 
-  return this._elements[0].style.getPropertyValue(cssKey) || null;
+  return this._el[0].style.getPropertyValue(cssKey) || null;
 };
 
 IDom.prototype._removeCssValue = function (cssKey) {

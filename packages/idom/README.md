@@ -32,19 +32,25 @@ popupDom.css({
 
 ## Features
 
-- `.on(eventName, eventHandler, life?)`
-- `.on(eventSpecification)`
-- `.once(eventName, eventHandler)`
-- `.once(eventSpecification)`
-- `.off()`
-- `.off(eventName)`
-- `.off(eventName, eventHandler)`
-- `.css(cssProperty)`
-- `.css(cssProperty, cssValue)`
-- `.css(cssMap)`
-- `.attr(attrName)`
-- `.attr(attrName, attrValue)`
-- `.attr(attrMap)`
-- `.data(dataKey)`
-- `.data(dataKey, dataValue)`
-- `.data(dataMap)`
+- Events
+    - `.on(eventName, eventHandler, life?)`
+    - `.on(eventSpecification)`
+    - `.once(eventName, eventHandler)`
+    - `.once(eventSpecification)`
+    - `.off()`
+    - `.off(eventName)`
+    - `.off(eventName, eventHandler)`
+- Styles and Attributes
+    - `.css(cssProperty)`
+    - `.css(cssProperty, cssValue)`
+    - `.css(cssMap)`
+    - `.attr(attrName)`
+    - `.attr(attrName, attrValue)`
+    - `.attr(attrMap)`
+    - `.data(dataKey)`
+    - `.data(dataKey, dataValue)`
+    - `.data(dataMap)`
+- DOM Tree
+    - `.find(selector)`
+    - `.first()`
+    - `.last()`

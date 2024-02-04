@@ -30,12 +30,23 @@ export interface IDomAttributeManager {
   data(dataMap: Record<string, IDomDataValue>): this;
 }
 
+export interface IDomTreeManager {
+  find(selector: string): IDom;
+  first(): IDom;
+  last(): IDom;
+}
+
 export interface IDomUtilManager {
   isEmpty(): boolean;
   each(callback: (element: HTMLElement) => void);
 }
 
-export interface IDom extends IDomEventManager, IDomAttributeManager, IDomStyleManager, IDomUtilManager {}
+export interface IDom
+  extends IDomEventManager,
+    IDomAttributeManager,
+    IDomStyleManager,
+    IDomTreeManager,
+    IDomUtilManager {}
 
 type SelectorString = string;
 

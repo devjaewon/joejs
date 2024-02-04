@@ -14,6 +14,12 @@ async function main() {
     .on('click', () => {
       console.log('clicked..!');
     });
+
+  const $child = $target.find('.child');
+
+  console.log($child);
+  console.log($child.first());
+  console.log($child.last());
 }
 
 main();
