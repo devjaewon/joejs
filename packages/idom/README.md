@@ -51,6 +51,8 @@ popupDom.css({
     - `.data(dataKey, dataValue)`
     - `.data(dataMap)`
 - DOM Tree
+    - `.get(index)`
     - `.find(selector)`
     - `.first()`
     - `.last()`
+    - `.rect()`

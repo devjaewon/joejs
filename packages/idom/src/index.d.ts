@@ -2,6 +2,15 @@ export type IDomCssValue = number | string | null;
 
 export type IDomDataValue = number | string | boolean | null;
 
+export interface IDomRect {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+  width: number;
+  height: number;
+}
+
 export interface IDomEventManager {
   on<E extends Event>(eventName: string, eventHandler: (e: E) => void, life?: number | undefined): this;
   on<E extends Event>(eventSpecification: { [x: string]: (e: E) => void }): this;
@@ -31,9 +40,11 @@ export interface IDomAttributeManager {
 }
 
 export interface IDomTreeManager {
+  get(index: number): HTMLElement | null;
   find(selector: string): IDom;
   first(): IDom;
   last(): IDom;
+  rect(): IDomRect;
 }
 
 export interface IDomUtilManager {
