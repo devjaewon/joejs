@@ -16,10 +16,9 @@ IDom.prototype._initElements = function (elements) {
       return Array.prototype.slice.call(document.querySelectorAll(elements));
     }
     case 'object': {
-      if (Array.isArray(elements) && elements.every(element => element instanceof Element)) {
+      if (Array.isArray(elements) && (elements.length === 0 || elements.every(element => element instanceof Element))) {
         return elements;
       }
-      console.log(elements);
       if (elements instanceof Element) {
         return [elements];
       }
