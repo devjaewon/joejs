@@ -1,3 +1,3 @@
 # `@kjojs/slider`
 
-- low cost, responsive slider module
+- slider module (like `swiper.js`) light version
