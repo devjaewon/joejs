@@ -1,18 +1,18 @@
 {
-  "name": "@kjojs/input",
+  "name": "@kjojs/slider",
   "version": "0.1.0",
-  "description": "recognizes mouse, pointer, and touch-based events and delivers refined data",
+  "description": "low cost, responsive slider module",
   "main": "dist/index.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "type": "module",
   "license": "MIT",
   "keywords": [
-    "interaction",
-    "events",
-    "touch",
-    "mouse",
-    "pointer",
-    "axis"
+    "slider",
+    "slide",
+    "swipe",
+    "flick",
+    "responsive",
+    "scroll"
   ],
   "author": {
     "name": "devjaewon",
@@ -21,15 +21,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/devjaewon/kjojs.git",
-    "directory": "packages/input"
+    "directory": "packages/slider"
   },
   "scripts": {
-    "dev:pan": "example=pan rollup -w -c rollup.config.dev.mjs",
+    "dev": "example=index rollup -w -c rollup.config.dev.mjs",
     "build": "rollup -c rollup.config.prod.mjs"
   },
   "dependencies": {
-    "@kjojs/eventbus": "^1.1.0",
-    "@kjojs/idom": "^1.1.1"
+    "@kjojs/idom": "^1.1.1",
+    "@kjojs/input": "0.1.0"
   },
   "devDependencies": {
     "@kjojs/config": "1.0.0"

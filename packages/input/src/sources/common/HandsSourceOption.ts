@@ -1,5 +1,5 @@
-import { HandsDomStyleMap } from '~/utils/HandsDomHandler';
+import { IDomCssValue } from '@kjojs/idom';
 
 export interface HandsSourceOption {
-  cssStyles?: HandsDomStyleMap;
+  cssStyles?: Record<string, IDomCssValue>;
 }

@@ -12,7 +12,7 @@ export class TouchSource extends HandsSource<TouchSource> {
   private _event: TouchEvent | null = null;
 
   init(): void {
-    this.dom.initStyles({
+    this.dom.css({
       'touch-action': 'pan-x pan-y',
       'user-drag': 'none',
       '-webkit-user-drag': 'none',

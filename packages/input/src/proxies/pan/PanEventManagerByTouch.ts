@@ -18,6 +18,8 @@ export class PanEventManagerByTouch implements PanEventManager<TouchSource> {
       return;
     }
 
+    const start = this._start;
+    const prev = this._current;
     const touch = _getFirstTouch(touchEvent);
     const panEvent: PanEvent = {
       type: this._getEventTypeByTouchSource(touchSource),
@@ -36,29 +38,43 @@ export class PanEventManagerByTouch implements PanEventManager<TouchSource> {
       time: touchEvent.timeStamp,
     };
 
-    if (touch) {
+    // target touch no exist on end event
+    if (panEvent.type === PanEventType.end && prev) {
+      panEvent.clientX = prev.clientX;
+      panEvent.clientY = prev.clientY;
+      panEvent.pageX = prev.pageX;
+      panEvent.pageY = prev.pageY;
+      panEvent.screenX = prev.screenX;
+      panEvent.screenY = prev.screenY;
+      panEvent.deltaX = 0;
+      panEvent.deltaY = 0;
+      panEvent.tdeltaX = prev.tdeltaX;
+      panEvent.tdeltaY = prev.tdeltaY;
+      panEvent.velocityX = 0;
+      panEvent.velocityY = 0;
+    } else if (touch) {
       panEvent.clientX = touch.clientX;
       panEvent.clientY = touch.clientY;
       panEvent.pageX = touch.pageX;
       panEvent.pageY = touch.pageY;
       panEvent.screenX = touch.screenX;
       panEvent.screenY = touch.screenY;
-      if (this._prev) {
-        panEvent.deltaX = touch.screenX - this._prev.screenX;
-        panEvent.deltaY = touch.screenY - this._prev.screenY;
+      if (prev) {
+        panEvent.deltaX = panEvent.clientX - prev.clientX;
+        panEvent.deltaY = panEvent.clientY - prev.clientY;
 
-        const timeDiff = panEvent.time - this._prev.time;
+        const timeDiff = panEvent.time - prev.time;
         panEvent.velocityX = panEvent.deltaX / timeDiff;
         panEvent.velocityY = panEvent.deltaY / timeDiff;
       }
-      if (this._start) {
-        panEvent.tdeltaX = touch.screenX - this._start.screenX;
-        panEvent.tdeltaY = touch.screenY - this._start.screenY;
+      if (start) {
+        panEvent.tdeltaX = panEvent.clientX - start.clientX;
+        panEvent.tdeltaY = panEvent.clientY - start.clientY;
       }
     }
 
-    this._prev = this._current;
     this._current = panEvent;
+    this._prev = prev;
     if (panEvent.type === PanEventType.start) {
       this._start = this._current;
     }

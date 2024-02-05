@@ -29,7 +29,7 @@ export default (callback) =>
           tsconfig: resolve(cwd, 'tsconfig.json'),
           outputToFilesystem: true,
         }),
-        terser(),
+        terser({}),
       ],
     };
 

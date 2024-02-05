@@ -1,9 +1,9 @@
 import { EventBus } from '@kjojs/eventbus';
-import { HandsDomHandler } from '~/utils/HandsDomHandler';
+import idom, { type IDom } from '@kjojs/idom';
 import { HandsSourceOption } from './HandsSourceOption';
 
 export abstract class HandsSource<Input> extends EventBus<{ input: Input }> {
-  private _dom: HandsDomHandler;
+  private _dom: IDom;
   protected _isSubscribed = false;
 
   constructor(
@@ -11,15 +11,15 @@ export abstract class HandsSource<Input> extends EventBus<{ input: Input }> {
     protected opt?: HandsSourceOption
   ) {
     super();
-    this._dom = new HandsDomHandler(element);
+    this._dom = idom(element);
   }
 
-  get dom(): HandsDomHandler {
+  get dom(): IDom {
     return this._dom;
   }
 
   destroy() {
-    this._dom.destroy();
+    this._dom.off();
     this.off();
   }
 
