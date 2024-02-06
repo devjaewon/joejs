@@ -5,6 +5,7 @@ import type { SliderPanel } from '~/panel/SliderPanel';
 export abstract class SliderCamera {
   protected _dom: IDom;
   protected _direction: SliderDirection = SliderDirection.STOP;
+  protected _isBlocked = false;
 
   constructor(
     element: HTMLElement,
@@ -14,5 +15,5 @@ export abstract class SliderCamera {
     this._dom = idom(element);
   }
 
-  abstract moveTo(index: number, animation?: SliderAnimation): Promise<void>;
+  abstract moveTo(index: number, animation?: SliderAnimation): Promise<boolean>;
 }

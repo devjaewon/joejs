@@ -8,7 +8,6 @@ import type { SliderPanel } from '~/panel';
 export class SliderPlainCamera extends SliderCamera {
   private _pan: Pan;
   private _isAnimated = false;
-  private _isBlocked = false;
 
   constructor(element: HTMLElement, context: SliderContext, panels: Array<SliderPanel>) {
     super(element, context, panels);
@@ -16,14 +15,19 @@ export class SliderPlainCamera extends SliderCamera {
     this._pan = new Pan().bind(new TouchSource(element)).on('input', this._handleInput);
   }
 
-  async moveTo(index: number, animation?: SliderAnimation): Promise<void> {
+  async moveTo(index: number, animation?: SliderAnimation): Promise<boolean> {
+    if (this._isBlocked) {
+      return true;
+    }
     if (index < 0 || index >= this._panels.length) {
       throw SliderInvalidArgumentsError;
     }
 
     this._context.index = index;
 
-    return this._syncWithIndex(animation);
+    await this._syncWithIndex(animation);
+
+    return false;
   }
 
   private _getNextPanelByX(): SliderPanel | null {
@@ -91,6 +95,10 @@ export class SliderPlainCamera extends SliderCamera {
   }
 
   private async _renderWithAnimation(x: number, animation: SliderAnimation): Promise<void> {
+    if (this._context.x === x) {
+      return;
+    }
+
     this._isAnimated = true;
     this._isBlocked = true;
     this._context.x = x;

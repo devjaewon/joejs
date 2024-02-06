@@ -13,7 +13,9 @@ function initBasicSlider() {
   const slider = new Slider(element);
 
   setTimeout(() => {
-    slider.moveTo(2, { duration: 2000 });
+    slider.moveTo(2, { duration: 2000 }).then(isBlocked => {
+      console.log(isBlocked);
+    });
   }, 1000);
 }
 

@@ -39,8 +39,8 @@ export class Slider {
     return this._panels;
   }
 
-  async moveTo(index: number, option?: SliderAnimationOption): Promise<void> {
-    this._camera.moveTo(index, mergeSliderAnimation(this._context.animation, option));
+  async moveTo(index: number, option?: SliderAnimationOption): Promise<boolean> {
+    return this._camera.moveTo(index, mergeSliderAnimation(this._context.animation, option));
   }
 
   private _createCamera(element: HTMLElement): SliderCamera {
