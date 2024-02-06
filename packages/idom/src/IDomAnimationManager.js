@@ -16,6 +16,7 @@ IDom.prototype.transition = function (cssPropery, cssValue, option) {
       }
       if (!isFinish) {
         this.off('transitionend', finish);
+        this.css('transition', null);
         isFinish = true;
         resolve();
       }
