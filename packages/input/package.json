@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@kjojs/eventbus": "^1.1.0",
-    "@kjojs/idom": "^1.1.1"
+    "@kjojs/idom": "^1.3.0"
   },
   "devDependencies": {
     "@kjojs/config": "1.0.0"
