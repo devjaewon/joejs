@@ -20,6 +20,13 @@ async function main() {
   console.log($child);
   console.log($child.first());
   console.log($child.last());
+
+  setTimeout(() => {
+    $target.transition('transform', 'translateX(100px)', {
+      duration: 2000,
+      timingFunction: 'ease-in-out',
+    });
+  }, 1000);
 }
 
 main();

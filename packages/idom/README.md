@@ -22,8 +22,15 @@ popupDom.css({
   'right': 0,
   'bottom': 0,
   'left': 0,
-  'background-color': 'rgba(0, 0, 0, 0.8)'
-}).on({
+  'background-color': 'rgba(0, 0, 0, 0.8)',
+}).transition(
+  'transform',
+  'translateX(100px)',
+  {
+    duration: 1000,
+    timingFunction: 'ease-in-out',
+  },
+).on({
   'click': () => {
     console.log('clicked!');
   },
@@ -56,3 +63,5 @@ popupDom.css({
     - `.first()`
     - `.last()`
     - `.rect()`
+- Animation
+    - `.transition(cssProperty, cssValue, transitionOption)`

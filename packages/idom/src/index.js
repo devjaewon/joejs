@@ -1,4 +1,5 @@
 import { IDom } from './IDom';
+import './IDomAnimationManager';
 import './IDomAttributeManager';
 import './IDomEventManager';
 import './IDomStyleManager';

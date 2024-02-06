@@ -11,6 +11,11 @@ export interface IDomRect {
   height: number;
 }
 
+export interface IDomTransitionOption {
+  duration?: number;
+  timingFunction?: string;
+}
+
 export interface IDomEventManager {
   on<E extends Event>(eventName: string, eventHandler: (e: E) => void, life?: number | undefined): this;
   on<E extends Event>(eventSpecification: { [x: string]: (e: E) => void }): this;
@@ -27,6 +32,10 @@ export interface IDomStyleManager {
   css<V extends IDomCssValue>(cssProperty: string): V;
   css<V extends IDomCssValue>(cssProperty: string, cssValue: V): this;
   css(cssMap: Record<string, IDomCssValue>): this;
+}
+
+export interface IDomAnimationManager {
+  transition<V extends IDomCssValue>(cssProperty: string, cssValue: V, option?: IDomTransitionOption): Promise<void>;
 }
 
 export interface IDomAttributeManager {
@@ -56,6 +65,7 @@ export interface IDom
   extends IDomEventManager,
     IDomAttributeManager,
     IDomStyleManager,
+    IDomAnimationManager,
     IDomTreeManager,
     IDomUtilManager {}
 
