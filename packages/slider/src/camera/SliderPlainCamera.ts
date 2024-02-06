@@ -72,16 +72,16 @@ export class SliderPlainCamera extends SliderCamera {
   }
 
   private async _afterMoveEnd(e: PanEvent): Promise<void> {
-    switch (this._context.afterMoveEnd) {
+    switch (this._context.config.afterMoveEndStrategy) {
       case SliderAfterMoveEnd.CRITICAL_POINT:
-        if (Math.abs(e.tdeltaX) > this._context.criticalPoint) {
+        if (Math.abs(e.tdeltaX) > this._context.config.slideNextCriticalPoint) {
           const targetPanel = this._getNextPanelByX();
 
           if (targetPanel) {
             this._context.index = targetPanel.index;
-            this._syncWithIndex(this._context.animation);
           }
         }
+        this._syncWithIndex(this._context.config.afterMoveEndAnimation);
         break;
       case SliderAfterMoveEnd.RESTORE:
         break;

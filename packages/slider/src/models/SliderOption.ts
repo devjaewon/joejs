@@ -2,24 +2,28 @@ import { SliderAfterMoveEnd } from './SliderAfterMoveEnd';
 import { SliderAnimation, getSliderAnimation } from './SliderAnimation';
 
 export interface SliderOption {
-  animation?: SliderAnimation;
-  afterMoveEnd?: SliderAfterMoveEnd;
-  criticalPoint?: number;
+  afterMoveEndAnimation?: SliderAnimation;
+  afterMoveEndStrategy?: SliderAfterMoveEnd;
+  slideNextCriticalPoint?: number;
 }
 
 export interface SliderContext {
-  animation: SliderAnimation;
-  afterMoveEnd: SliderAfterMoveEnd;
-  criticalPoint: number;
+  config: {
+    afterMoveEndAnimation: SliderAnimation;
+    afterMoveEndStrategy: SliderAfterMoveEnd;
+    slideNextCriticalPoint: number;
+  };
   x: number;
   index: number;
 }
 
 export const getSliderContext = (option?: SliderOption): SliderContext => {
   return {
-    animation: getSliderAnimation(option?.animation),
-    afterMoveEnd: option?.afterMoveEnd ?? SliderAfterMoveEnd.CRITICAL_POINT,
-    criticalPoint: option?.criticalPoint ?? 60,
+    config: {
+      afterMoveEndAnimation: getSliderAnimation(option?.afterMoveEndAnimation),
+      afterMoveEndStrategy: option?.afterMoveEndStrategy ?? SliderAfterMoveEnd.CRITICAL_POINT,
+      slideNextCriticalPoint: option?.slideNextCriticalPoint ?? 80,
+    },
     x: 0,
     index: 0,
   };
