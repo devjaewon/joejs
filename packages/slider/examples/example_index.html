@@ -16,6 +16,7 @@
       overflow: hidden;
       border: solid #dedede;
       border-width: 1px 0;
+      background-color: white;
     }
     .slider + .slider {
       margin-top: 500px;
@@ -31,12 +32,12 @@
       height: 200px;
       vertical-align: top;
       line-height: 200px;
-      font-size: 18px;
+      font-size: 24px;
       text-align: center;
       background-color: white;
     }
-    .panel + .panel {
-      border-left: 1px solid #dedede;
+    .panel:nth-child(2n) {
+      background-color: #efefef;
     }
   </style>
 </head>

@@ -8,9 +8,16 @@ export interface SliderAnimation {
   timingFunction: string;
 }
 
-export const getSliderAnimation = (animation?: SliderAnimationOption): SliderAnimation => {
+export const getSliderAnimation = (option?: SliderAnimationOption): SliderAnimation => {
   return {
-    duration: animation?.duration ?? 300,
-    timingFunction: animation?.timingFunction ?? 'ease',
+    duration: option?.duration ?? 300,
+    timingFunction: option?.timingFunction ?? 'ease',
+  };
+};
+
+export const mergeSliderAnimation = (animation: SliderAnimation, option?: SliderAnimationOption): SliderAnimation => {
+  return {
+    duration: option?.duration ?? animation.duration,
+    timingFunction: option?.timingFunction ?? animation.timingFunction,
   };
 };

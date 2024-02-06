@@ -10,7 +10,11 @@ function initBasicSlider() {
     return;
   }
 
-  new Slider(element);
+  const slider = new Slider(element);
+
+  setTimeout(() => {
+    slider.moveTo(2, { duration: 2000 });
+  }, 1000);
 }
 
 main();

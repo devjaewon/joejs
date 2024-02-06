@@ -7,6 +7,8 @@ import type { SliderPanel } from '~/panel';
 
 export class SliderPlainCamera extends SliderCamera {
   private _pan: Pan;
+  private _isAnimated = false;
+  private _isBlocked = false;
 
   constructor(element: HTMLElement, context: SliderContext, panels: Array<SliderPanel>) {
     super(element, context, panels);
@@ -53,17 +55,16 @@ export class SliderPlainCamera extends SliderCamera {
 
   private async _syncWithIndex(animation?: SliderAnimation): Promise<void> {
     const x = this._panels[this._context.index].start;
+
     if (animation) {
-      // TODO:
+      this._renderWithAnimation(x, animation);
     } else {
-      this._context.x = x;
-      this._render();
+      this._render(x);
     }
   }
 
   private _move(deltaX: number) {
-    this._context.x += deltaX;
-    this._render();
+    this._render(this._context.x + deltaX);
   }
 
   private async _afterMoveEnd(e: PanEvent): Promise<void> {
@@ -74,7 +75,7 @@ export class SliderPlainCamera extends SliderCamera {
 
           if (targetPanel) {
             this._context.index = targetPanel.index;
-            this._syncWithIndex();
+            this._syncWithIndex(this._context.animation);
           }
         }
         break;
@@ -84,20 +85,43 @@ export class SliderPlainCamera extends SliderCamera {
     this._direction = SliderDirection.STOP;
   }
 
-  private _render() {
+  private _render(x: number) {
+    this._context.x = x;
     this._dom.css('transform', `translate3d(${this._context.x}px, 0, 0)`);
+  }
+
+  private async _renderWithAnimation(x: number, animation: SliderAnimation): Promise<void> {
+    this._isAnimated = true;
+    this._isBlocked = true;
+    this._context.x = x;
+
+    return this._dom
+      .transition('transform', `translate3d(${x}px, 0, 0)`, {
+        duration: animation.duration,
+        timingFunction: animation.timingFunction,
+      })
+      .then(() => {
+        this._isAnimated = false;
+        this._isBlocked = false;
+      });
   }
 
   private readonly _handleInput = (e: PanEvent) => {
     switch (e.type) {
       case PanEventType.start:
       case PanEventType.move:
-        this._direction = e.tdeltaX > 0 ? SliderDirection.RIGHT : SliderDirection.LEFT;
-        this._move(e.deltaX);
+        if (!this._isBlocked) {
+          this._direction = e.tdeltaX > 0 ? SliderDirection.RIGHT : SliderDirection.LEFT;
+          this._move(e.deltaX);
+        }
         break;
       case PanEventType.end:
-        this._move(e.deltaX);
-        this._afterMoveEnd(e);
+        if (!this._isBlocked) {
+          this._move(e.deltaX);
+          this._afterMoveEnd(e);
+        } else if (!this._isAnimated) {
+          this._isBlocked = false;
+        }
         break;
     }
   };

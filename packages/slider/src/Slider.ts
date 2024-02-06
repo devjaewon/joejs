@@ -2,7 +2,7 @@ import idom from '@kjojs/idom';
 import { SliderCamera, SliderPlainCamera } from '~/camera';
 import { sliderBindRequiredError } from '~/error';
 import { SliderPanel, SliderImmutablePanel } from '~/panel';
-import { SliderAnimation, SliderContext, SliderOption, getSliderContext } from '~/models';
+import { SliderAnimationOption, SliderContext, SliderOption, getSliderContext, mergeSliderAnimation } from '~/models';
 
 export class Slider {
   private _camera: SliderCamera;
@@ -39,8 +39,8 @@ export class Slider {
     return this._panels;
   }
 
-  async moveTo(index: number, animation?: SliderAnimation): Promise<void> {
-    this._camera.moveTo(index, animation);
+  async moveTo(index: number, option?: SliderAnimationOption): Promise<void> {
+    this._camera.moveTo(index, mergeSliderAnimation(this._context.animation, option));
   }
 
   private _createCamera(element: HTMLElement): SliderCamera {

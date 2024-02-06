@@ -1,7 +1,7 @@
 {
   "name": "@kjojs/slider",
   "version": "0.1.0",
-  "description": "low cost, responsive slider module",
+  "description": "low cost slider module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -28,7 +28,7 @@
     "build": "rollup -c rollup.config.prod.mjs"
   },
   "dependencies": {
-    "@kjojs/idom": "^1.1.1",
+    "@kjojs/idom": "^1.2.1",
     "@kjojs/input": "0.1.0"
   },
   "devDependencies": {
