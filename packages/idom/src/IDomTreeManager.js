@@ -53,3 +53,45 @@ IDom.prototype.rect = function () {
     height,
   };
 };
+
+IDom.prototype.html = function (html) {
+  switch (typeof html) {
+    case 'undefined': {
+      let result = '';
+      this.each(element => {
+        result += element.innerHTML;
+      });
+
+      return result;
+    }
+    case 'string': {
+      this.each(element => {
+        element.innerHTML = html;
+      });
+      break;
+    }
+  }
+
+  return this;
+};
+
+IDom.prototype.text = function (text) {
+  switch (typeof text) {
+    case 'undefined': {
+      let result = '';
+      this.each(element => {
+        result += element.innerText;
+      });
+
+      return result;
+    }
+    case 'string': {
+      this.each(element => {
+        element.innerText = text;
+      });
+      break;
+    }
+  }
+
+  return this;
+};

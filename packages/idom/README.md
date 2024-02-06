@@ -1,7 +1,7 @@
 # `@kjojs/idom`
 
 - provides a concise and intuitive dom manipulation API
-- like jquery, but only dom handling (so light)
+- like jquery, but only dom handling (so fast and small size)
 
 ## Installation
 
@@ -14,7 +14,7 @@ npm install @kjojs/idom --save
 ```js
 import idom from '@kjojs/idom';
 
-const popupDom = idom(document.getElementById('id'));
+const popupDom = idom(document.getElementById('id')); // or idom('#id')
 
 popupDom.css({
   'position': 'fixed',
@@ -63,5 +63,9 @@ popupDom.css({
     - `.first()`
     - `.last()`
     - `.rect()`
+    - `.text()`
+    - `.text(innerText)`
+    - `.html()`
+    - `.html(innerHTML)`
 - Animation
     - `.transition(cssProperty, cssValue, transitionOption)`

@@ -21,6 +21,9 @@ async function main() {
   console.log($child.first());
   console.log($child.last());
 
+  idom('.target2').html('<div>3</div>');
+  idom('.target3').text('<div>3</div>');
+
   setTimeout(() => {
     $target.transition('transform', 'translateX(100px)', {
       duration: 2000,

@@ -54,6 +54,10 @@ export interface IDomTreeManager {
   first(): IDom;
   last(): IDom;
   rect(): IDomRect;
+  text(): string;
+  text(innerText: string): this;
+  html(): string;
+  html(innerHTML: string): this;
 }
 
 export interface IDomUtilManager {

@@ -11,8 +11,12 @@ node_modules
 .rollup.cache
 tsconfig.tsbuildinfo
 **/examples/**
+!**/examples/**.css
 !**/examples/example_*
 !**/examples/favicon.ico
+!**/examples/index.ts
+!**/examples/index.html
+!**/examples/index.js
 
 # Next.js
 .next
