@@ -51,6 +51,7 @@ export interface IDomAttributeManager {
 export interface IDomTreeManager {
   get(index: number): HTMLElement | null;
   find(selector: string): IDom;
+  closest(selector: string): IDom;
   first(): IDom;
   last(): IDom;
   rect(): IDomRect;

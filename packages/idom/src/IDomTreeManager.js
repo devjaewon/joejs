@@ -4,6 +4,20 @@ IDom.prototype.get = function (index) {
   return this._el[index] || null;
 };
 
+IDom.prototype.closest = function (selector) {
+  const newElements = [];
+
+  this.each(element => {
+    const closestElement = this._closest(element, selector);
+
+    if (closestElement) {
+      newElements.push(closestElement);
+    }
+  });
+
+  return new IDom(newElements);
+};
+
 IDom.prototype.find = function (selector) {
   const newElements = [];
 
@@ -94,4 +108,19 @@ IDom.prototype.text = function (text) {
   }
 
   return this;
+};
+
+IDom.prototype._closest = function (element, selector) {
+  let cursor = element;
+  let closestElement = null;
+
+  while (cursor) {
+    if (cursor.matches(selector)) {
+      return cursor;
+    }
+
+    cursor = cursor.parentElement;
+  }
+
+  return closestElement;
 };
