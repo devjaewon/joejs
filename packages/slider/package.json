@@ -28,7 +28,7 @@
     "build": "rollup -c rollup.config.prod.mjs"
   },
   "dependencies": {
-    "@kjojs/idom": "^1.3.0",
+    "@kjojs/idom": "^1.5.0",
     "@kjojs/input": "0.1.0"
   },
   "devDependencies": {

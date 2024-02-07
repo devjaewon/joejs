@@ -3,6 +3,7 @@ import { Slider } from '../src';
 
 async function main() {
   initBasicSlider();
+  initCodeBoxes();
 }
 
 function initBasicSlider() {
@@ -13,7 +14,7 @@ function initBasicSlider() {
 
   new Slider(element);
 
-  idom('#slider_basic_html').text(`<div id="slider_basic" class="slider">
+  idom('#code_basic ._code[data-target="html"]').text(`<div id="slider_basic" class="slider">
   <ul class="camera">
     <li class="panel">1</li>
     <li class="panel">2</li>
@@ -22,11 +23,40 @@ function initBasicSlider() {
     <li class="panel">5</li>
   </ul>
 </div>`);
+  idom('#code_basic ._code[data-target="css"]').text(`.slider {
+  overflow: hidden;
+}
+.camera {
+  white-space: nowrap;
+  font-size: 0;
+}
+.panel {
+  display: inline-block;
+  width: 100%;
+  height: 200px;
+  vertical-align: top;
+}`);
+  idom('#code_basic ._code[data-target="js"]').text(`import Slider from '@kjojs/slider';
 
-  setTimeout(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    console.log((window as any).__CPEmbed('.codepen-base'));
-  }, 1000);
+const slider = new Slider(
+  document.getElementById('slider_basic'),
+);`);
+}
+
+function initCodeBoxes() {
+  idom('._btnCode').on('click', e => {
+    const btnCode = idom(e.target as HTMLElement);
+    const targetName = btnCode.data('target');
+    const on = btnCode.hasClass('on');
+    const codebox = btnCode.closest('._codebox');
+
+    codebox.find('._btnCode').removeClass('on').addClass('off');
+    codebox.find('._code').css('display', null);
+    if (!on) {
+      codebox.find(`._code[data-target="${targetName}"]`).css('display', 'block');
+      codebox.find(`._btnCode[data-target="${targetName}"]`).removeClass('off').addClass('on');
+    }
+  });
 }
 
 main();

@@ -33,6 +33,9 @@ section h3 {
 .m20 {
   margin-top: 20px;
 }
+.m30 {
+  margin-top: 30px;
+}
 .slider {
   overflow: hidden;
   border: solid #dedede;
@@ -62,23 +65,16 @@ section h3 {
   background-color: black;
   color: white;
 }
-.code::after {
-  content: '';
-  display: block;
-  clear: both;
+.codebox .buttons {
+  padding: 0 15px;
 }
-.code .codebox {
+.code {
+  display: none;
   overflow: auto;
-  width: 50%;
-  height: 200px;
-  padding: 20px;
-  white-space: pre-wrap;
-}
-.code .left {
-  float: left;
+  height: 240px;
+  margin-top: 15px;
+  padding: 15px;
   background-color: #f2f2f2;
-}
-.code .right {
-  float: right;
-  background-color: #eaeaea;
+  white-space: pre;
+  font-family: monospace;
 }
