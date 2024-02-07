@@ -46,6 +46,10 @@ export interface IDomAttributeManager {
   data<V extends IDomDataValue>(dataKey: string, _: undefined, opt?: { noTypeConversion?: boolean }): V;
   data(dataKey: string, dataValue: IDomDataValue): this;
   data(dataMap: Record<string, IDomDataValue>): this;
+  addClass(className: string): this;
+  removeClass(className: string): this;
+  toggleClass(className: string): this;
+  hasClass(className: string): boolean;
 }
 
 export interface IDomTreeManager {

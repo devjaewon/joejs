@@ -110,3 +110,36 @@ IDom.prototype._setDataValue = function (dataKey, dataValue) {
     element.dataset[dataKey] = dataValue.toString();
   });
 };
+
+IDom.prototype.addClass = function (className) {
+  this.each(element => {
+    element.classList.add(className);
+  });
+  return this;
+};
+
+IDom.prototype.removeClass = function (className) {
+  this.each(element => {
+    element.classList.remove(className);
+  });
+  return this;
+};
+
+IDom.prototype.toggleClass = function (className) {
+  this.each(element => {
+    element.classList.toggle(className);
+  });
+  return this;
+};
+
+IDom.prototype.hasClass = function (className) {
+  let has = false;
+
+  this.each(element => {
+    if (element.classList.contains(className)) {
+      has = true;
+    }
+  });
+
+  return has;
+};
