@@ -25,7 +25,8 @@
   },
   "scripts": {
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
-    "build": "rollup -c rollup.config.prod.mjs"
+    "build": "rollup -c rollup.config.prod.mjs",
+    "build:example": "example=index rollup -c rollup.config.example.mjs"
   },
   "dependencies": {
     "@kjojs/idom": "^1.5.0",
