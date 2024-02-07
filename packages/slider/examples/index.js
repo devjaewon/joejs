@@ -110,12 +110,13 @@
     })(SliderAfterMoveEnd || (SliderAfterMoveEnd = {}));
 
     var getSliderContext = function (option) {
-        var _a, _b;
+        var _a, _b, _c;
         return {
             config: {
                 afterMoveEndAnimation: getSliderAnimation(option === null || option === void 0 ? void 0 : option.afterMoveEndAnimation),
                 afterMoveEndStrategy: (_a = option === null || option === void 0 ? void 0 : option.afterMoveEndStrategy) !== null && _a !== void 0 ? _a : SliderAfterMoveEnd.CRITICAL_POINT,
                 slideNextCriticalPoint: (_b = option === null || option === void 0 ? void 0 : option.slideNextCriticalPoint) !== null && _b !== void 0 ? _b : 80,
+                lastTreshold: (_c = option === null || option === void 0 ? void 0 : option.lastTreshold) !== null && _c !== void 0 ? _c : 999999,
             },
             x: 0,
             index: 0,
@@ -158,6 +159,7 @@
         function SliderPlainCamera(element, context, panels) {
             var _this = _super.call(this, element, context, panels) || this;
             _this._isAnimated = false;
+            _this._lastTreshold = [0, 0];
             _this._handleInput = function (e) {
                 switch (e.type) {
                     case h.start:
@@ -224,6 +226,21 @@
             }
             return candidatePanels[targetI] || null;
         };
+        SliderPlainCamera.prototype._getLastTreshold = function () {
+            var treshold = [0, 0];
+            if (this._panels.length === 0) {
+                return treshold;
+            }
+            var startTreshold = typeof this._context.config.lastTreshold === 'number'
+                ? this._context.config.lastTreshold
+                : this._context.config.lastTreshold[0];
+            treshold[0] = this._panels[0].start + startTreshold;
+            var endTreshold = typeof this._context.config.lastTreshold === 'number'
+                ? this._context.config.lastTreshold
+                : this._context.config.lastTreshold[1];
+            treshold[1] = this._panels[this._panels.length - 1].start - endTreshold;
+            return treshold;
+        };
         SliderPlainCamera.prototype._syncWithIndex = function (animation) {
             return __awaiter(this, void 0, void 0, function () {
                 var x;
@@ -265,8 +282,12 @@
             });
         };
         SliderPlainCamera.prototype._render = function (x) {
-            this._context.x = x;
-            this._dom.css('transform', "translate3d(".concat(this._context.x, "px, 0, 0)"));
+            var _a = this._getLastTreshold(), startTreshold = _a[0], endTreshold = _a[1];
+            console.log(startTreshold, endTreshold, x);
+            if (x <= startTreshold && x >= endTreshold) {
+                this._context.x = x;
+                this._dom.css('transform', "translate3d(".concat(this._context.x, "px, 0, 0)"));
+            }
         };
         SliderPlainCamera.prototype._renderWithAnimation = function (x, animation) {
             return __awaiter(this, void 0, void 0, function () {

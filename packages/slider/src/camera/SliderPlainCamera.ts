@@ -8,6 +8,7 @@ import type { SliderPanel } from '~/panel';
 export class SliderPlainCamera extends SliderCamera {
   private _pan: Pan;
   private _isAnimated = false;
+  private _lastTreshold = [0, 0];
 
   constructor(element: HTMLElement, context: SliderContext, panels: Array<SliderPanel>) {
     super(element, context, panels);
@@ -57,6 +58,28 @@ export class SliderPlainCamera extends SliderCamera {
     return candidatePanels[targetI] || null;
   }
 
+  private _getLastTreshold(): [number, number] {
+    const treshold: [number, number] = [0, 0];
+
+    if (this._panels.length === 0) {
+      return treshold;
+    }
+
+    const startTreshold =
+      typeof this._context.config.lastTreshold === 'number'
+        ? this._context.config.lastTreshold
+        : this._context.config.lastTreshold[0];
+    treshold[0] = this._panels[0].start + startTreshold;
+
+    const endTreshold =
+      typeof this._context.config.lastTreshold === 'number'
+        ? this._context.config.lastTreshold
+        : this._context.config.lastTreshold[1];
+    treshold[1] = this._panels[this._panels.length - 1].start - endTreshold;
+
+    return treshold;
+  }
+
   private async _syncWithIndex(animation?: SliderAnimation): Promise<void> {
     const x = this._panels[this._context.index].start;
 
@@ -90,8 +113,13 @@ export class SliderPlainCamera extends SliderCamera {
   }
 
   private _render(x: number) {
-    this._context.x = x;
-    this._dom.css('transform', `translate3d(${this._context.x}px, 0, 0)`);
+    const [startTreshold, endTreshold] = this._getLastTreshold();
+
+    console.log(startTreshold, endTreshold, x);
+    if (x <= startTreshold && x >= endTreshold) {
+      this._context.x = x;
+      this._dom.css('transform', `translate3d(${this._context.x}px, 0, 0)`);
+    }
   }
 
   private async _renderWithAnimation(x: number, animation: SliderAnimation): Promise<void> {
