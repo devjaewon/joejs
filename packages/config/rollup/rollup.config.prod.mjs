@@ -18,7 +18,7 @@ export default (callback) =>
       input: resolve(cwd, 'src', 'index.ts'),
       output: [
         {
-          file: resolve(cwd, 'dist', 'index.js'),
+          file: resolve(cwd, 'dist', 'index.esm.js'),
           format: 'es',
           exports: 'named',
           sourcemap: true,
