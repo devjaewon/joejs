@@ -1,7 +1,9 @@
 # `@kjojs/idom`
 
 - provides a concise and intuitive dom manipulation API
-- like jquery, but only dom handling (so fast and small size)
+- like jquery, but only partial features
+- not support cross browsing and use native api, so small and fast
+- small size (6kb)
 
 ## Installation
 
