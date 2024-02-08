@@ -8,11 +8,12 @@ import type { SliderPanel } from '~/panel';
 export class SliderPlainCamera extends SliderCamera {
   private _pan: Pan;
   private _isAnimated = false;
-  private _lastTreshold = [0, 0];
+  private _width = 0;
 
   constructor(element: HTMLElement, context: SliderContext, panels: Array<SliderPanel>) {
     super(element, context, panels);
 
+    this._width = this._dom.rect().width;
     this._pan = new Pan().bind(new TouchSource(element)).on('input', this._handleInput);
   }
 
@@ -80,8 +81,17 @@ export class SliderPlainCamera extends SliderCamera {
     return treshold;
   }
 
+  private _calculateStartX(panel: SliderPanel): number {
+    const cameraWidth = this._width;
+    const panelWidth = panel.width;
+
+    const alignCorrection = (cameraWidth - panelWidth) / 2;
+
+    return panel.start + alignCorrection;
+  }
+
   private async _syncWithIndex(animation?: SliderAnimation): Promise<void> {
-    const x = this._panels[this._context.index].start;
+    const x = this._calculateStartX(this._panels[this._context.index]);
 
     if (animation) {
       this._renderWithAnimation(x, animation);
@@ -115,7 +125,6 @@ export class SliderPlainCamera extends SliderCamera {
   private _render(x: number) {
     const [startTreshold, endTreshold] = this._getLastTreshold();
 
-    console.log(startTreshold, endTreshold, x);
     if (x <= startTreshold && x >= endTreshold) {
       this._context.x = x;
       this._dom.css('transform', `translate3d(${this._context.x}px, 0, 0)`);

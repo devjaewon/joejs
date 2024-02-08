@@ -2,11 +2,12 @@ import idom from '@kjojs/idom';
 import { Slider } from '../src';
 
 async function main() {
-  initBasicSlider();
+  initBasicExample();
+  initSideMarginExample();
   initCodeBoxes();
 }
 
-function initBasicSlider() {
+function initBasicExample() {
   const element = idom('#slider_basic').get(0);
   if (!element) {
     return;
@@ -41,6 +42,15 @@ function initBasicSlider() {
 const slider = new Slider(
   document.getElementById('slider_basic'),
 );`);
+}
+
+function initSideMarginExample() {
+  const element = idom('#slider_sidemargin').get(0);
+  if (!element) {
+    return;
+  }
+
+  new Slider(element);
 }
 
 function initCodeBoxes() {

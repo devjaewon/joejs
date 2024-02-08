@@ -1,3 +1,5 @@
+
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':3001/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 (function () {
     'use strict';
 
@@ -157,7 +159,7 @@
         function SliderPlainCamera(element, context, panels) {
             var _this = _super.call(this, element, context, panels) || this;
             _this._isAnimated = false;
-            _this._lastTreshold = [0, 0];
+            _this._width = 0;
             _this._handleInput = function (e) {
                 switch (e.type) {
                     case h.start:
@@ -178,6 +180,7 @@
                         break;
                 }
             };
+            _this._width = _this._dom.rect().width;
             _this._pan = new f().bind(new d(element)).on('input', _this._handleInput);
             return _this;
         }
@@ -239,11 +242,17 @@
             treshold[1] = this._panels[this._panels.length - 1].start - endTreshold;
             return treshold;
         };
+        SliderPlainCamera.prototype._calculateStartX = function (panel) {
+            var cameraWidth = this._width;
+            var panelWidth = panel.width;
+            var alignCorrection = (cameraWidth - panelWidth) / 2;
+            return panel.start + alignCorrection;
+        };
         SliderPlainCamera.prototype._syncWithIndex = function (animation) {
             return __awaiter(this, void 0, void 0, function () {
                 var x;
                 return __generator(this, function (_a) {
-                    x = this._panels[this._context.index].start;
+                    x = this._calculateStartX(this._panels[this._context.index]);
                     if (animation) {
                         this._renderWithAnimation(x, animation);
                     }
@@ -281,7 +290,6 @@
         };
         SliderPlainCamera.prototype._render = function (x) {
             var _a = this._getLastTreshold(), startTreshold = _a[0], endTreshold = _a[1];
-            console.log(startTreshold, endTreshold, x);
             if (x <= startTreshold && x >= endTreshold) {
                 this._context.x = x;
                 this._dom.css('transform', "translate3d(".concat(this._context.x, "px, 0, 0)"));
@@ -325,9 +333,10 @@
         __extends(SliderImmutablePanel, _super);
         function SliderImmutablePanel(element, context, index) {
             var _this = _super.call(this, element, context, index) || this;
-            var _a = _this._dom.rect(), left = _a.left, right = _a.right;
+            var _a = _this._dom.rect(), left = _a.left, right = _a.right, width = _a.width;
             _this._start = left * -1;
             _this._end = right * -1;
+            _this._width = width;
             return _this;
         }
         Object.defineProperty(SliderImmutablePanel.prototype, "index", {
@@ -347,6 +356,13 @@
         Object.defineProperty(SliderImmutablePanel.prototype, "end", {
             get: function () {
                 return this._end;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(SliderImmutablePanel.prototype, "width", {
+            get: function () {
+                return this._width;
             },
             enumerable: false,
             configurable: true
@@ -408,13 +424,14 @@
     function main() {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                initBasicSlider();
+                initBasicExample();
+                initSideMarginExample();
                 initCodeBoxes();
                 return [2 /*return*/];
             });
         });
     }
-    function initBasicSlider() {
+    function initBasicExample() {
         var element = n$1('#slider_basic').get(0);
         if (!element) {
             return;
@@ -423,6 +440,13 @@
         n$1('#code_basic ._code[data-target="html"]').text("<div id=\"slider_basic\" class=\"slider\">\n  <ul class=\"camera\">\n    <li class=\"panel\">1</li>\n    <li class=\"panel\">2</li>\n    <li class=\"panel\">3</li>\n    <li class=\"panel\">4</li>\n    <li class=\"panel\">5</li>\n  </ul>\n</div>");
         n$1('#code_basic ._code[data-target="css"]').text(".slider {\n  overflow: hidden;\n}\n.camera {\n  white-space: nowrap;\n  font-size: 0;\n}\n.panel {\n  display: inline-block;\n  width: 100%;\n  height: 200px;\n  vertical-align: top;\n}");
         n$1('#code_basic ._code[data-target="js"]').text("import Slider from '@kjojs/slider';\n\nconst slider = new Slider(\n  document.getElementById('slider_basic'),\n);");
+    }
+    function initSideMarginExample() {
+        var element = n$1('#slider_sidemargin').get(0);
+        if (!element) {
+            return;
+        }
+        new Slider(element);
     }
     function initCodeBoxes() {
         n$1('._btnCode').on('click', function (e) {

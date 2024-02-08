@@ -15,4 +15,5 @@ export abstract class SliderPanel {
   abstract get index(): number;
   abstract get start(): number;
   abstract get end(): number;
+  abstract get width(): number;
 }
