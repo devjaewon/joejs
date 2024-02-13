@@ -1,4 +1,5 @@
 import { HandsSource } from '../common/HandsSource';
+import { HandsSourceOption } from '../common/HandsSourceOption';
 
 export enum TouchSourceStatus {
   ready,
@@ -7,9 +8,15 @@ export enum TouchSourceStatus {
   end,
 }
 
-export class TouchSource extends HandsSource<TouchSource> {
+export const TOUCH_SOURCE_ID = 'TOUCH_SOURCE';
+
+export class TouchSource extends HandsSource {
   private _status = TouchSourceStatus.ready;
   private _event: TouchEvent | null = null;
+
+  constructor(element: HTMLElement, opt?: HandsSourceOption) {
+    super(TOUCH_SOURCE_ID, element, opt);
+  }
 
   init(): void {
     this.dom.css({

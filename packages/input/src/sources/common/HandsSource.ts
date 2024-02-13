@@ -2,16 +2,21 @@ import { EventBus } from '@kjojs/eventbus';
 import idom, { type IDom } from '@kjojs/idom';
 import { HandsSourceOption } from './HandsSourceOption';
 
-export abstract class HandsSource<Input> extends EventBus<{ input: Input }> {
+export abstract class HandsSource extends EventBus<{ input: HandsSource }> {
   private _dom: IDom;
   protected _isSubscribed = false;
 
   constructor(
+    private _id: string,
     element: HTMLElement,
     protected opt?: HandsSourceOption
   ) {
     super();
     this._dom = idom(element);
+  }
+
+  get id(): string {
+    return this._id;
   }
 
   get dom(): IDom {

@@ -1,3 +1,3 @@
-export * from './errors/errors';
+export * from './errors';
 export * from './proxies';
 export * from './sources';

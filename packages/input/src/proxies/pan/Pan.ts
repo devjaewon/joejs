@@ -1,18 +1,18 @@
 import EventBus from '@kjojs/eventbus';
-import { TouchSource } from '~/sources/touch/TouchSource';
 import { HandsProxy } from '~/proxies/common/HandsProxy';
-import { HandsSourceToBind } from '~/proxies/common/HandsSourceToBind';
 import { PanEventManagerByTouch } from './PanEventManagerByTouch';
 import { PanEvent, PanEventType } from './PanEvent';
 import { PanEventManager } from './PanEventManager';
+import { HandsSource, MOUSE_SOURCE_ID, TOUCH_SOURCE_ID } from '~/sources';
+import { PanEventManagerByMouse } from './PanEventManagerByMouse';
 
 export interface PanEventSpecification {
   input: PanEvent;
 }
 
 export class Pan extends EventBus<PanEventSpecification> implements HandsProxy {
-  private _source: HandsSourceToBind | null = null;
-  private _eventManager: PanEventManager<HandsSourceToBind> | null = null;
+  private _source: HandsSource | null = null;
+  private _eventManager: PanEventManager | null = null;
   private _disabled = false;
 
   destroy(): void {
@@ -33,18 +33,23 @@ export class Pan extends EventBus<PanEventSpecification> implements HandsProxy {
     return this;
   }
 
-  bind(source: HandsSourceToBind): this {
+  bind(source: HandsSource): this {
     this._source = source;
     this._source.init();
     this._source.on('input', this._handleInput);
-    if (source instanceof TouchSource) {
-      this._eventManager = new PanEventManagerByTouch();
+    switch (this._source.id) {
+      case MOUSE_SOURCE_ID:
+        this._eventManager = new PanEventManagerByMouse();
+        break;
+      case TOUCH_SOURCE_ID:
+        this._eventManager = new PanEventManagerByTouch();
+        break;
     }
 
     return this;
   }
 
-  private readonly _handleInput = (source: HandsSourceToBind) => {
+  private readonly _handleInput = (source: HandsSource) => {
     if (!this._eventManager) {
       return;
     }

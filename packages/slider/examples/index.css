@@ -8,7 +8,7 @@ li {
   list-style: none;
 }
 body {
-  background-color: #fff;
+  background-color: #545454;
 }
 h1 {
   background-color: #1d1d1f;
@@ -26,6 +26,11 @@ section h2 {
 section h3 {
   padding: 0 15px;
   font-size: 20px;
+}
+.main {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
 }
 .m10 {
   margin-top: 10px;

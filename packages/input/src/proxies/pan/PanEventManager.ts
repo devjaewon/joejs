@@ -1,10 +1,10 @@
 import { HandsSource } from '~/sources/common/HandsSource';
 import { PanEvent } from './PanEvent';
 
-export interface PanEventManager<Source extends HandsSource<unknown>> {
+export interface PanEventManager {
   get current(): PanEvent | null;
 
-  process(source: Source): void;
+  process(source: HandsSource): void;
 
   clear(): void;
 }

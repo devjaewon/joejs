@@ -1,9 +1,9 @@
-import { TouchSource, TouchSourceStatus } from '~/sources';
-import { handsUnknownError } from '~/errors/errors';
+import { MouseSource, MouseSourceStatus } from '~/sources/mouse/MouseSource';
 import { PanEventManager } from './PanEventManager';
 import { PanEvent, PanEventType } from './PanEvent';
+import { handsUnknownError } from '~/errors';
 
-export class PanEventManagerByTouch implements PanEventManager {
+export class PanEventManagerByMouse implements PanEventManager {
   private _current: PanEvent | null = null;
   private _prev: PanEvent | null = null;
   private _start: PanEvent | null = null;
@@ -12,17 +12,16 @@ export class PanEventManagerByTouch implements PanEventManager {
     return this._current;
   }
 
-  process(touchSource: TouchSource): void {
-    const touchEvent = touchSource.event;
-    if (!touchEvent) {
+  process(mouseSource: MouseSource): void {
+    const mouseEvent = mouseSource.event;
+    if (!mouseEvent) {
       return;
     }
 
     const start = this._start;
     const prev = this._current;
-    const touch = _getFirstTouch(touchEvent);
     const panEvent: PanEvent = {
-      type: this._getEventTypeByTouchSource(touchSource),
+      type: this._getEventTypeByMouseSource(mouseSource),
       clientX: 0,
       clientY: 0,
       pageX: 0,
@@ -35,8 +34,13 @@ export class PanEventManagerByTouch implements PanEventManager {
       tdeltaY: 0,
       velocityX: 0,
       velocityY: 0,
-      time: touchEvent.timeStamp,
+      time: mouseSource.event.timeStamp,
     };
+
+    if (!start && panEvent.type !== PanEventType.start) {
+      this.clear();
+      return;
+    }
 
     // target touch no exist on end event
     if (panEvent.type === PanEventType.end && prev) {
@@ -52,13 +56,13 @@ export class PanEventManagerByTouch implements PanEventManager {
       panEvent.tdeltaY = prev.tdeltaY;
       panEvent.velocityX = 0;
       panEvent.velocityY = 0;
-    } else if (touch) {
-      panEvent.clientX = touch.clientX;
-      panEvent.clientY = touch.clientY;
-      panEvent.pageX = touch.pageX;
-      panEvent.pageY = touch.pageY;
-      panEvent.screenX = touch.screenX;
-      panEvent.screenY = touch.screenY;
+    } else {
+      panEvent.clientX = mouseEvent.clientX;
+      panEvent.clientY = mouseEvent.clientY;
+      panEvent.pageX = mouseEvent.pageX;
+      panEvent.pageY = mouseEvent.pageY;
+      panEvent.screenX = mouseEvent.screenX;
+      panEvent.screenY = mouseEvent.screenY;
       if (prev) {
         panEvent.deltaX = panEvent.clientX - prev.clientX;
         panEvent.deltaY = panEvent.clientY - prev.clientY;
@@ -86,32 +90,23 @@ export class PanEventManagerByTouch implements PanEventManager {
     this._start = null;
   }
 
-  private _getEventTypeByTouchSource(source: TouchSource): PanEventType {
+  private _getEventTypeByMouseSource(source: MouseSource): PanEventType {
     let eventType: PanEventType;
 
     switch (source.status) {
-      case TouchSourceStatus.ready:
+      case MouseSourceStatus.ready:
         throw handsUnknownError;
-      case TouchSourceStatus.start:
+      case MouseSourceStatus.start:
         eventType = PanEventType.start;
         break;
-      case TouchSourceStatus.move:
+      case MouseSourceStatus.move:
         eventType = PanEventType.move;
         break;
-      case TouchSourceStatus.end:
+      case MouseSourceStatus.end:
         eventType = PanEventType.end;
         break;
     }
 
     return eventType;
   }
-}
-
-function _getFirstTouch(e: TouchEvent | null): Touch | null {
-  const isTouch = (e?.targetTouches.length ?? 0) > 0;
-  if (isTouch) {
-    return e!.targetTouches[0];
-  }
-
-  return null;
 }

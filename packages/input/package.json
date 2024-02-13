@@ -2,7 +2,7 @@
   "name": "@kjojs/input",
   "version": "0.1.0",
   "description": "recognizes mouse, pointer, and touch-based events and delivers refined data",
-  "main": "dist/index.js",
+  "main": "dist/index.esm.js",
   "types": "dist/src/index.d.ts",
   "type": "module",
   "license": "MIT",

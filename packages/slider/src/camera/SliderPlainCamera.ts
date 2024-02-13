@@ -1,20 +1,26 @@
-import { Pan, PanEvent, PanEventType, TouchSource } from '@kjojs/input';
+import { Pan, PanEvent, PanEventType, MouseSource, TouchSource } from '@kjojs/input';
 import { SliderCamera } from '~/camera';
 import { SliderInvalidArgumentsError } from '~/error';
 import { SliderDirection, type SliderAnimation, type SliderContext } from '~/models';
 import { SliderAfterMoveEnd } from '~/models/SliderAfterMoveEnd';
 import type { SliderPanel } from '~/panel';
+import { checkTouchSupport } from '~/utils';
 
 export class SliderPlainCamera extends SliderCamera {
   private _pan: Pan;
   private _isAnimated = false;
   private _width = 0;
+  private _start = 0;
 
   constructor(element: HTMLElement, context: SliderContext, panels: Array<SliderPanel>) {
     super(element, context, panels);
 
-    this._width = this._dom.rect().width;
-    this._pan = new Pan().bind(new TouchSource(element)).on('input', this._handleInput);
+    const cameraRect = this._dom.rect();
+    const source = checkTouchSupport() ? new TouchSource(element) : new MouseSource(element);
+
+    this._start = cameraRect.left;
+    this._width = cameraRect.width;
+    this._pan = new Pan().bind(source).on('input', this._handleInput);
   }
 
   async moveTo(index: number, animation?: SliderAnimation): Promise<boolean> {
@@ -87,7 +93,7 @@ export class SliderPlainCamera extends SliderCamera {
 
     const alignCorrection = (cameraWidth - panelWidth) / 2;
 
-    return panel.start + alignCorrection;
+    return panel.start + this._start + alignCorrection;
   }
 
   private async _syncWithIndex(animation?: SliderAnimation): Promise<void> {
