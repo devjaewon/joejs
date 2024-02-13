@@ -4,10 +4,12 @@ export class SliderBindRequiredError extends Error {
   }
 }
 
+export const sliderBindRequiredError = new SliderBindRequiredError();
+
 export class SliderInvalidArgumentsError extends Error {
   constructor() {
     super('[@kjojs/slider] invalid arguments!');
   }
 }
 
-export const sliderBindRequiredError = new SliderBindRequiredError();
+export const sliderInvalidArgumentsError = new SliderInvalidArgumentsError();

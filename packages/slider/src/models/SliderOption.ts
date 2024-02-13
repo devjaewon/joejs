@@ -6,6 +6,7 @@ export interface SliderOption {
   afterMoveEndStrategy?: SliderAfterMoveEnd;
   slideNextCriticalPoint?: number;
   lastTreshold?: [number, number] | number;
+  notResize?: boolean;
 }
 
 export interface SliderContext {
@@ -14,6 +15,7 @@ export interface SliderContext {
     afterMoveEndStrategy: SliderAfterMoveEnd;
     slideNextCriticalPoint: number;
     lastTreshold: [number, number] | number;
+    notResize: boolean;
   };
   x: number;
   index: number;
@@ -26,6 +28,7 @@ export const getSliderContext = (option?: SliderOption): SliderContext => {
       afterMoveEndStrategy: option?.afterMoveEndStrategy ?? SliderAfterMoveEnd.CRITICAL_POINT,
       slideNextCriticalPoint: option?.slideNextCriticalPoint ?? 80,
       lastTreshold: option?.lastTreshold ?? 999999,
+      notResize: option?.notResize ?? false,
     },
     x: 0,
     index: 0,

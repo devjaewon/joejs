@@ -1,26 +1,41 @@
+import { IDomRect } from '@kjojs/idom';
 import { Pan, PanEvent, PanEventType, MouseSource, TouchSource } from '@kjojs/input';
 import { SliderCamera } from '~/camera';
 import { SliderInvalidArgumentsError } from '~/error';
 import { SliderDirection, type SliderAnimation, type SliderContext } from '~/models';
 import { SliderAfterMoveEnd } from '~/models/SliderAfterMoveEnd';
-import type { SliderPanel } from '~/panel';
+import { ResizeObservable } from '~/observers';
+import type { SliderPanel, SliderPlainPanel } from '~/panel';
 import { checkTouchSupport } from '~/utils';
 
 export class SliderPlainCamera extends SliderCamera {
   private _pan: Pan;
+  private _resizeObservable: ResizeObservable | null;
   private _isAnimated = false;
-  private _width = 0;
-  private _start = 0;
+  private _cameraX = 0;
+  private _cameraWidth = 0;
 
-  constructor(element: HTMLElement, context: SliderContext, panels: Array<SliderPanel>) {
-    super(element, context, panels);
+  constructor(
+    element: HTMLElement,
+    context: SliderContext,
+    private _panels: Array<SliderPlainPanel>
+  ) {
+    super(element, context);
 
-    const cameraRect = this._dom.rect();
-    const source = checkTouchSupport() ? new TouchSource(element) : new MouseSource(element);
+    this._recognizeRects(this._dom.rect());
+    this._pan = new Pan()
+      .bind(checkTouchSupport() ? new TouchSource(element) : new MouseSource(element))
+      .on('input', this._handleInput);
+    this._resizeObservable = this._createResizeObservable(element);
+  }
 
-    this._start = cameraRect.left;
-    this._width = cameraRect.width;
-    this._pan = new Pan().bind(source).on('input', this._handleInput);
+  get pan(): Pan {
+    return this._pan;
+  }
+
+  destroy() {
+    this._resizeObservable?.destroy();
+    this._resizeObservable = null;
   }
 
   async moveTo(index: number, animation?: SliderAnimation): Promise<boolean> {
@@ -38,6 +53,55 @@ export class SliderPlainCamera extends SliderCamera {
     return false;
   }
 
+  private _recognizeRects(cameraRect: IDomRect) {
+    this._cameraX = cameraRect.left;
+    this._cameraWidth = cameraRect.width;
+
+    let prevX: number = 0;
+    let prevWidth = 0;
+
+    for (let i = 0; i < this._panels.length; i++) {
+      const panel = this._panels[i];
+      const rect = panel.dom.rect();
+      const { left: x, width } = rect;
+
+      const isFirst = i === 0;
+      const isLast = i === this._panels.length - 1;
+
+      const leftGap = isFirst ? x - this._cameraX : x - prevX - prevWidth;
+      const rightGap = isLast ? this._panels[0].leftGap : 0;
+
+      panel.setWidth(width).setLeftGap(leftGap).setRightGap(rightGap);
+      prevX = panel.x;
+      prevWidth = panel.width;
+    }
+  }
+
+  private _resizeRects(cameraRect: IDomRect) {
+    this._cameraWidth = cameraRect.width;
+
+    for (let i = 0; i < this._panels.length; i++) {
+      const panel = this._panels[i];
+      const rect = panel.dom.rect();
+      const { width } = rect;
+
+      panel.setWidth(width);
+    }
+
+    const currentPanel = this._panels[this._context.index];
+    const currentPanelX = currentPanel ? this._calculateStartX(currentPanel) : 0;
+
+    this._render(currentPanelX);
+  }
+
+  private _createResizeObservable(element: HTMLElement): ResizeObservable | null {
+    const observable = new ResizeObservable(element);
+
+    observable.observe(this._handleResize);
+
+    return observable;
+  }
+
   private _getNextPanelByX(): SliderPanel | null {
     const prevIndex = this._context.index;
     const candidatePanels = this._panels.filter(panel =>
@@ -51,7 +115,8 @@ export class SliderPlainCamera extends SliderCamera {
     let targetI = -1;
     let distance = Infinity;
     for (let i = 0; i < candidatePanels.length; i++) {
-      const candidateDistance = Math.abs(candidatePanels[i].start - this._context.x);
+      const panelX = candidatePanels[i].x;
+      const candidateDistance = Math.abs(panelX - this._context.x);
       if (candidateDistance < distance) {
         targetI = i;
         distance = candidateDistance;
@@ -76,24 +141,23 @@ export class SliderPlainCamera extends SliderCamera {
       typeof this._context.config.lastTreshold === 'number'
         ? this._context.config.lastTreshold
         : this._context.config.lastTreshold[0];
-    treshold[0] = this._panels[0].start + startTreshold;
+    treshold[0] = this._panels[0].x - startTreshold;
 
     const endTreshold =
       typeof this._context.config.lastTreshold === 'number'
         ? this._context.config.lastTreshold
         : this._context.config.lastTreshold[1];
-    treshold[1] = this._panels[this._panels.length - 1].start - endTreshold;
+    treshold[1] = this._panels[this._panels.length - 1].x + endTreshold;
 
     return treshold;
   }
 
-  private _calculateStartX(panel: SliderPanel): number {
-    const cameraWidth = this._width;
+  private _calculateStartX(panel: SliderPlainPanel): number {
+    const cameraWidth = this._cameraWidth;
     const panelWidth = panel.width;
-
     const alignCorrection = (cameraWidth - panelWidth) / 2;
 
-    return panel.start + this._start + alignCorrection;
+    return panel.x - alignCorrection;
   }
 
   private async _syncWithIndex(animation?: SliderAnimation): Promise<void> {
@@ -107,7 +171,7 @@ export class SliderPlainCamera extends SliderCamera {
   }
 
   private _move(deltaX: number) {
-    this._render(this._context.x + deltaX);
+    this._render(this._context.x - deltaX);
   }
 
   private async _afterMoveEnd(e: PanEvent): Promise<void> {
@@ -131,9 +195,9 @@ export class SliderPlainCamera extends SliderCamera {
   private _render(x: number) {
     const [startTreshold, endTreshold] = this._getLastTreshold();
 
-    if (x <= startTreshold && x >= endTreshold) {
+    if (x >= startTreshold && x <= endTreshold) {
       this._context.x = x;
-      this._dom.css('transform', `translate3d(${this._context.x}px, 0, 0)`);
+      this._dom.css('transform', `translate3d(${this._context.x * -1}px, 0, 0)`);
     }
   }
 
@@ -147,7 +211,7 @@ export class SliderPlainCamera extends SliderCamera {
     this._context.x = x;
 
     return this._dom
-      .transition('transform', `translate3d(${x}px, 0, 0)`, {
+      .transition('transform', `translate3d(${x * -1}px, 0, 0)`, {
         duration: animation.duration,
         timingFunction: animation.timingFunction,
       })
@@ -175,5 +239,9 @@ export class SliderPlainCamera extends SliderCamera {
         }
         break;
     }
+  };
+
+  private readonly _handleResize = (cameraRect: IDomRect) => {
+    this._resizeRects(cameraRect);
   };
 }

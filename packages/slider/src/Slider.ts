@@ -1,7 +1,7 @@
 import idom from '@kjojs/idom';
 import { SliderCamera, SliderPlainCamera } from '~/camera';
-import { sliderBindRequiredError } from '~/error';
-import { SliderPanel, SliderImmutablePanel } from '~/panel';
+import { sliderBindRequiredError, sliderInvalidArgumentsError } from '~/error';
+import { SliderPanel, SliderPlainPanel } from '~/panel';
 import { SliderAnimationOption, SliderContext, SliderOption, getSliderContext, mergeSliderAnimation } from '~/models';
 
 export class Slider {
@@ -27,7 +27,7 @@ export class Slider {
     });
 
     this._context = getSliderContext(option);
-    this._panels = panelElements.map((panelElement, index) => this._createPanel(panelElement, index));
+    this._panels = this._createPanels(panelElements);
     this._camera = this._createCamera(cameraElement);
   }
 
@@ -44,10 +44,23 @@ export class Slider {
   }
 
   private _createCamera(element: HTMLElement): SliderCamera {
-    return new SliderPlainCamera(element, this._context, this._panels);
+    const panels = this._panels;
+    const isValidPanels = panels.map(panel => panel instanceof SliderPlainPanel);
+
+    if (!isValidPanels) {
+      throw sliderInvalidArgumentsError;
+    }
+
+    return new SliderPlainCamera(element, this._context, panels as SliderPlainPanel[]);
   }
 
-  private _createPanel(element: HTMLElement, index: number): SliderPanel {
-    return new SliderImmutablePanel(element, this._context, index);
+  private _createPanels(elements: HTMLElement[]): SliderPanel[] {
+    const panels: SliderPanel[] = [];
+
+    for (let i = 0; i < elements.length; i++) {
+      panels[i] = new SliderPlainPanel(elements[i], panels[i - 1] || null, i, this._context);
+    }
+
+    return panels;
   }
 }

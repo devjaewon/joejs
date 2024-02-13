@@ -1,2 +1,2 @@
-export * from './SliderImmutablePanel';
+export * from './SliderPlainPanel';
 export * from './SliderPanel';
