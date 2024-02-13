@@ -1,4 +1,5 @@
 import { IDom } from './IDom';
+import { convertRectToIDomRect } from './IDomUtils';
 
 IDom.prototype.get = function (index) {
   return this._el[index] || null;
@@ -51,21 +52,8 @@ IDom.prototype.rect = function () {
   }
 
   const domRect = this._el[0].getBoundingClientRect();
-  const width = domRect.width;
-  const height = domRect.height;
-  const left = domRect.left ?? domRect.x;
-  const top = domRect.top ?? domRect.y;
-  const right = left + width;
-  const bottom = top + height;
 
-  return {
-    top,
-    right,
-    bottom,
-    left,
-    width,
-    height,
-  };
+  return convertRectToIDomRect(domRect);
 };
 
 IDom.prototype.html = function (html) {

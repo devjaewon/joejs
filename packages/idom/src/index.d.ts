@@ -81,3 +81,5 @@ export interface IDom
 type SelectorString = string;
 
 export default function (elements: HTMLElement | Array<HTMLElement> | SelectorString): IDom;
+
+export function convertRectToIDomRect(rect: DOMRectReadOnly): IDomRect;
