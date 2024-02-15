@@ -1,0 +1,28 @@
+{
+  "version": "0.1.0",
+  "name": "@kjojs/canvas-video",
+  "private": true,
+  "description": "render video using canvas",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "devjaewon",
+    "email": "devjaewon21@gmail.com"
+  },
+  "scripts": {
+    "dev": "example=index rollup -w -c rollup.config.dev.mjs",
+    "build": "rollup -c rollup.config.prod.mjs",
+    "build:example": "example=index rollup -c rollup.config.example.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devjaewon/kjojs.git",
+    "directory": "packages/canvas-video"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@kjojs/config": "1.0.0"
+  }
+}
