@@ -1,5 +1,3 @@
-
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':3001/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 (function () {
     'use strict';
 
@@ -19,6 +17,20 @@
     ***************************************************************************** */
     /* global Reflect, Promise, SuppressedError, Symbol */
 
+    var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+
+    function __extends(d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    }
 
     function __awaiter(thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -64,10 +76,23 @@
     };
 
     var CanvasVideoCanvas = /** @class */ (function () {
-        function CanvasVideoCanvas(_viewport, _renderer) {
+        function CanvasVideoCanvas(_player, _viewport, _renderer) {
+            var _this = this;
+            this._player = _player;
             this._viewport = _viewport;
             this._renderer = _renderer;
+            this._handleTick = function (player) {
+                _this._renderer(_this._renderingContext, player.state);
+            };
             this._element = this._createElement();
+            var renderingContext = this._element.getContext('2d');
+            if (renderingContext) {
+                this._renderingContext = renderingContext;
+            }
+            else {
+                throw new Error('canvas context not usable');
+            }
+            this._player.on('tick', this._handleTick);
         }
         Object.defineProperty(CanvasVideoCanvas.prototype, "element", {
             get: function () {
@@ -76,6 +101,9 @@
             enumerable: false,
             configurable: true
         });
+        CanvasVideoCanvas.prototype.destroy = function () {
+            this._player.off('tick', this._handleTick);
+        };
         CanvasVideoCanvas.prototype._createElement = function () {
             var element = document.createElement('canvas');
             element.width = this._viewport.width;
@@ -86,13 +114,97 @@
         return CanvasVideoCanvas;
     }());
 
-    var CanvasVideoVideo = /** @class */ (function () {
-        function CanvasVideoVideo(_viewport, opt) {
+    var r=function(){function r(){this._registry={};}return r.prototype.on=function(r,t,e){var i=this;switch(typeof r){case"string":if(!t)throw new Error("[@kjojs/hands] argument eventHandler required!");var n=r,s=t;this._registry[n]=this._registry[n]||[],this._registry[n].push({life:null!=e?e:-1,handler:s});break;case"object":if(!r)throw new Error("[@kjojs/hands] argument eventSpecification required!");var h=r;Object.entries(h).forEach((function(r){var t=r[0],e=r[1];i.on(t,e);}));}return this},r.prototype.once=function(r,t){var e=this;switch(typeof r){case"string":if(!t)throw new Error("[@kjojs/hands] argument eventHandler required!");var i=r,n=t;this.on(i,n,1);break;case"object":var s=r;Object.entries(s).forEach((function(r){var t=r[0],i=r[1];e.on(t,i,1);}));}return this},r.prototype.off=function(r,t){if(!r)return this._registry={},this;if("string"==typeof r){var e=r;if(t){if(this._registry[e]){var i=(this._registry[e]||[]).findIndex((function(r){return r.handler===t}));i>=0&&(1===this._registry[e].length?delete this._registry[e]:this._registry[e].splice(i,1));}}else delete this._registry[e];}return this},r.prototype.emit=function(r,t){for(var e=[],i=this._registry[r]||[],n=0;n<i.length;n++){var s=i[n];s.life>0&&s.life--,s.handler(t),0!==s.life&&e.push(s);}e.length>0?this._registry[r]=e:delete this._registry[r];},r.prototype.has=function(r,t){if(!r)return Object.keys(this._registry).length>0;var e=r,i=!!this._registry[e]&&this._registry[e].length>0;return t?!!i&&this._registry[e].findIndex((function(r){return r.handler===t}))>=0:i},r}();
+
+    var CanvasVideoPlayer = /** @class */ (function (_super) {
+        __extends(CanvasVideoPlayer, _super);
+        function CanvasVideoPlayer(opt) {
             var _a, _b;
+            var _this = _super.call(this) || this;
+            _this._startTimestamp = null;
+            _this._animationFrameId = null;
+            _this._state = {
+                sequence: 0,
+                time: 0,
+                percent: 0,
+                isPlaying: false,
+            };
+            _this._next = function (timestamp) {
+                if (!_this._state.isPlaying) {
+                    return;
+                }
+                var startTimestamp = _this._startTimestamp;
+                var hit = false;
+                if (startTimestamp === null) {
+                    _this._startTimestamp = timestamp;
+                    _this._state.time = 0;
+                    _this._state.percent = 0;
+                    hit = true;
+                }
+                else {
+                    _this._state.time = timestamp - startTimestamp;
+                    _this._state.percent = _this._totalTime > 0 ? _this._state.time / _this._totalTime : 0;
+                    hit = _this._state.time >= _this._getNextTime();
+                }
+                if (hit) {
+                    _this.emit('tick', _this);
+                    _this._state.sequence++;
+                }
+                _this._animationFrameId = requestAnimationFrame(_this._next);
+            };
+            _this._totalTime = (_a = opt === null || opt === void 0 ? void 0 : opt.totalTime) !== null && _a !== void 0 ? _a : 0;
+            _this._frameRate = (_b = opt === null || opt === void 0 ? void 0 : opt.frameRate) !== null && _b !== void 0 ? _b : 60;
+            return _this;
+        }
+        Object.defineProperty(CanvasVideoPlayer.prototype, "frameRate", {
+            get: function () {
+                return this._frameRate;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(CanvasVideoPlayer.prototype, "state", {
+            get: function () {
+                return this._state;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        CanvasVideoPlayer.prototype.play = function () {
+            this._state.isPlaying = true;
+            this.emit('play');
+            this._animationFrameId = requestAnimationFrame(this._next);
+        };
+        CanvasVideoPlayer.prototype.stop = function () {
+            this._state = {
+                sequence: 0,
+                time: 0,
+                percent: 0,
+                isPlaying: false,
+            };
+            if (this._animationFrameId !== null) {
+                cancelAnimationFrame(this._animationFrameId);
+                this._animationFrameId = null;
+            }
+        };
+        CanvasVideoPlayer.prototype._getNextTime = function () {
+            var nextSequence = this._state.sequence;
+            var timeUnit = 1000 / this._frameRate;
+            return timeUnit * nextSequence;
+        };
+        return CanvasVideoPlayer;
+    }(r));
+
+    var CanvasVideoVideo = /** @class */ (function () {
+        function CanvasVideoVideo(_player, _viewport, opt) {
+            var _this = this;
+            this._player = _player;
             this._viewport = _viewport;
+            this._handlePlay = function () {
+                _this._element.play();
+            };
             this._element = this._createElement(opt);
-            this._totalTime = (_a = opt === null || opt === void 0 ? void 0 : opt.totalTime) !== null && _a !== void 0 ? _a : -1;
-            this._frameRate = (_b = opt === null || opt === void 0 ? void 0 : opt.frameRate) !== null && _b !== void 0 ? _b : 60;
+            this._player.on('play', this._handlePlay);
         }
         Object.defineProperty(CanvasVideoVideo.prototype, "element", {
             get: function () {
@@ -121,20 +233,25 @@
 
     var CanvasVideo = /** @class */ (function () {
         function CanvasVideo(opt) {
-            this._viewport = this._createViewport();
-            this._video = new CanvasVideoVideo(this._viewport, opt);
-            this._canvas = new CanvasVideoCanvas(this._viewport, opt.render);
-            this._fragment = this._createFragment();
+            var viewport = this._createViewport(opt);
+            this._player = new CanvasVideoPlayer(opt);
+            this._video = new CanvasVideoVideo(this._player, viewport, opt);
+            this._canvas = new CanvasVideoCanvas(this._player, viewport, opt.render);
+            this._fragment = this._connectAndCreateFragment();
         }
         CanvasVideo.prototype.insertUnder = function (element) {
             element.appendChild(this._fragment);
             return this;
         };
+        CanvasVideo.prototype.play = function () {
+            this._player.play();
+            return this;
+        };
         CanvasVideo.prototype._createViewport = function (opt) {
             var _a;
-            var widthInfo = opt === null || opt === void 0 ? void 0 : opt.width;
-            var heightInfo = opt === null || opt === void 0 ? void 0 : opt.height;
-            var ratio = (_a = opt === null || opt === void 0 ? void 0 : opt.ratio) !== null && _a !== void 0 ? _a : 1;
+            var widthInfo = opt.width;
+            var heightInfo = opt.height;
+            var ratio = (_a = opt.ratio) !== null && _a !== void 0 ? _a : 1;
             if (widthInfo && heightInfo) {
                 return {
                     ratio: ratio,
@@ -162,10 +279,11 @@
                 height: 200 / ratio,
             };
         };
-        CanvasVideo.prototype._createFragment = function () {
+        CanvasVideo.prototype._connectAndCreateFragment = function () {
             var videoElement = this._video.element;
             var canvasElement = this._canvas.element;
             var fragment = document.createDocumentFragment();
+            videoElement.srcObject = canvasElement.captureStream(this._player.frameRate);
             fragment.appendChild(videoElement);
             fragment.appendChild(canvasElement);
             return fragment;
@@ -175,13 +293,34 @@
 
     function main() {
         return __awaiter(this, void 0, void 0, function () {
+            var TEN_MINUTES, canvasWidth, canvasHeight, canvasVideo;
             return __generator(this, function (_a) {
-                new CanvasVideo({
-                    width: 300,
-                    ratio: 3 / 2,
+                TEN_MINUTES = 1000 * 60 * 10;
+                canvasWidth = 300;
+                canvasHeight = 200;
+                canvasVideo = new CanvasVideo({
+                    totalTime: TEN_MINUTES,
+                    frameRate: 60,
+                    width: canvasWidth,
+                    height: canvasHeight,
                     className: '_video',
-                    render: function () { },
-                }).insertUnder(document.getElementById('base_example'));
+                    render: function (ctx, _a) {
+                        var sequence = _a.sequence;
+                        ctx.setTransform(1, 0, 0, 1, 0, 0);
+                        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+                        ctx.translate(canvasWidth / 2, canvasHeight / 2);
+                        ctx.rotate(0.04 * sequence);
+                        ctx.translate(0, 0);
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(-50, -50, 100, 100);
+                    },
+                });
+                canvasVideo.insertUnder(document.getElementById('base_example'));
+                document.querySelector('._btnPlay').addEventListener('click', function () {
+                    canvasVideo.play();
+                });
+                document.querySelector('#base_desc').innerText =
+                    'The above element is not a <canvas>, The <video>.\nclick Play button!';
                 return [2 /*return*/];
             });
         });

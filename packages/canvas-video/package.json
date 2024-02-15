@@ -21,7 +21,9 @@
     "url": "https://github.com/devjaewon/kjojs.git",
     "directory": "packages/canvas-video"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@kjojs/eventbus": "^1.1.0"
+  },
   "devDependencies": {
     "@kjojs/config": "1.0.0"
   }

@@ -1,18 +1,17 @@
+import { CanvasVideoPlayer } from './CanvasVideoPlayer';
 import { CanvasVideoVideoOption } from './models';
 import { CanvasVideoViewport } from './models/CanvasVideoViewport';
 
 export class CanvasVideoVideo {
   private _element: HTMLVideoElement;
-  private _totalTime: number;
-  private _frameRate: number;
 
   constructor(
+    private _player: CanvasVideoPlayer,
     private _viewport: CanvasVideoViewport,
     opt?: CanvasVideoVideoOption
   ) {
     this._element = this._createElement(opt);
-    this._totalTime = opt?.totalTime ?? -1;
-    this._frameRate = opt?.frameRate ?? 60;
+    this._player.on('play', this._handlePlay);
   }
 
   get element() {
@@ -36,4 +35,8 @@ export class CanvasVideoVideo {
 
     return element;
   }
+
+  private readonly _handlePlay = () => {
+    this._element.play();
+  };
 }
