@@ -20,7 +20,7 @@ export class EventBus<D extends object = any> {
   private _registry: EventRegistry<D> = {} as EventRegistry<D>;
 
   on<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>, life?: number): this;
-  on(eventSpecification: EventSpecification<D>): this;
+  on(eventSpecification: Partial<EventSpecification<D>>): this;
   on(eventName: unknown, eventHandler?: unknown, life?: number): this {
     switch (typeof eventName) {
       case 'string': {
@@ -59,7 +59,7 @@ export class EventBus<D extends object = any> {
   }
 
   once<N extends keyof D>(eventName: N, eventHandler: EventHandler<D[N]>): this;
-  once(eventSpecification: EventSpecification<D>): this;
+  once(eventSpecification: Partial<EventSpecification<D>>): this;
   once(eventName: unknown, eventHandler?: unknown): this {
     switch (typeof eventName) {
       case 'string': {
