@@ -68,13 +68,15 @@ export class SliderPlainCamera extends SliderCamera {
       const isFirst = i === 0;
       const isLast = i === this._panels.length - 1;
 
-      const leftGap = isFirst ? x - this._cameraX : x - prevX - prevWidth;
+      const leftGap = isFirst ? x - this._cameraX : x - prevX - prevWidth - this._cameraX;
       const rightGap = isLast ? this._panels[0].leftGap : 0;
 
       panel.setWidth(width).setLeftGap(leftGap).setRightGap(rightGap);
       prevX = panel.x;
       prevWidth = panel.width;
     }
+
+    console.log(this._panels);
   }
 
   private _resizeRects(cameraRect: IDomRect) {
