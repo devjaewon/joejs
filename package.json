@@ -4,9 +4,6 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:page": "yarn workspace demo-page-router dev",
-    "build": "yarn workspace next-hash-router build",
-    "lint": "eslint packages/next-hash-router/src",
     "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
