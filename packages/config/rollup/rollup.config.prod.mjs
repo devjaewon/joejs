@@ -1,8 +1,8 @@
 import merge from 'deepmerge';
-import { resolve } from 'path';
+import { join } from 'path';
 import { defineConfig } from 'rollup';
 import terser from '@rollup/plugin-terser';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 
 /**
  * @param {import('rollup').RollupOptionsFunction}
@@ -10,15 +10,15 @@ import typescript from '@rollup/plugin-typescript';
 export default (callback) =>
   defineConfig((cliArgs) => {
     const cwd = process.cwd();
-    
+
     /**
      * @type {import('rollup').RollupOptions}
      */
     const baseConfig = {
-      input: resolve(cwd, 'src', 'index.ts'),
+      input: join(cwd, 'src', 'index.ts'),
       output: [
         {
-          file: resolve(cwd, 'dist', 'index.esm.js'),
+          file: join(cwd, 'dist', 'index.esm.js'),
           format: 'es',
           exports: 'named',
           sourcemap: true,
@@ -26,8 +26,7 @@ export default (callback) =>
       ],
       plugins: [
         typescript({
-          tsconfig: resolve(cwd, 'tsconfig.json'),
-          outputToFilesystem: true,
+          tsconfig: join(cwd, 'tsconfig.json'),
         }),
         terser({}),
       ],

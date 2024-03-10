@@ -1,6 +1,6 @@
 {
   "name": "@kjojs/eventbus",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "universal and light(1kb) event bus module",
   "main": "dist/index.esm.js",
   "types": "dist/src/index.d.ts",
