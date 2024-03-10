@@ -2,6 +2,7 @@
 assets
 examples
 src
+!dist/src
 jest.config.mjs
 rollup.config.*.mjs
 tsconfig.json

@@ -1,6 +1,6 @@
 {
   "name": "@kjojs/idom",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "provides a concise and intuitive dom manipulation API",
   "main": "dist/index.esm.js",
   "types": "dist/index.d.ts",
