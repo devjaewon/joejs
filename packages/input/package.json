@@ -15,21 +15,22 @@
     "axis"
   ],
   "author": {
-    "name": "devjaewon",
-    "email": "devjaewon21@gmail.com"
+    "name": "devphilip21",
+    "email": "philip21.dev@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devjaewon/kjojs.git",
+    "url": "https://github.com/devphilip21/kjojs.git",
     "directory": "packages/input"
   },
   "scripts": {
     "dev:pan": "example=pan rollup -w -c rollup.config.dev.mjs",
-    "build": "rollup -c rollup.config.prod.mjs"
+    "build": "rollup -c rollup.config.prod.mjs",
+    "prepublish": "npm run build"
   },
   "dependencies": {
-    "@kjojs/eventbus": "^1.1.0",
-    "@kjojs/idom": "^1.5.2"
+    "@kjojs/eventbus": "1.1.5",
+    "@kjojs/idom": "1.5.3"
   },
   "devDependencies": {
     "@kjojs/config": "1.0.0"

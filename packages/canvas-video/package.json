@@ -8,8 +8,8 @@
   "type": "module",
   "license": "MIT",
   "author": {
-    "name": "devjaewon",
-    "email": "devjaewon21@gmail.com"
+    "name": "devphilip21",
+    "email": "philip21.dev@gmail.com"
   },
   "scripts": {
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devjaewon/kjojs.git",
+    "url": "https://github.com/devphilip21/kjojs.git",
     "directory": "packages/canvas-video"
   },
   "dependencies": {

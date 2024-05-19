@@ -1,6 +1,6 @@
 The MIT License
 
-Copyright (c) 2023 devjaewon <devjaewon21@gmail.com>
+Copyright (c) 2023 devphilip21 <philip21.dev@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

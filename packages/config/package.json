@@ -8,13 +8,13 @@
   "type": "module",
   "license": "MIT",
   "author": {
-    "name": "devjaewon",
-    "email": "devjaewon21@gmail.com"
+    "name": "devphilip21",
+    "email": "philip21.dev@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devjaewon/kjojs.git",
-    "directory": "packages/rollup-plugin-livereload2"
+    "url": "https://github.com/devphilip21/kjojs.git",
+    "directory": "packages/config"
   },
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
