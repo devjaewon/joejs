@@ -10,7 +10,7 @@
 npm install @kjojs/slider --save
 ```
 
-## Getting Started [(Demo)](https://devjaewon.github.io/kjojs/packages/slider/examples/)
+## Getting Started [(Demo)](https://devphilip21.github.io/kjojs/packages/slider/examples/)
 
 ```html
 <div id="slider">
