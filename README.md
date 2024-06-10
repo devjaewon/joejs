@@ -1,11 +1,11 @@
-# `@kjojs`
+# `@philip21`
 
-JS/TS monorepo for personal development, reference, and open source purposes.
+Various modules useful for front-end development.
 
 ## Index
 
-- [@kjojs/canvas-video](./packages/canvas-video/): snapshots of the canvas can be exported as video to fit the frame
-- [@kjojs/eventbus](./packages/eventbus/): universal and light(1kb) event bus module
-- [@kjojs/idom](./packages/idom/): provides a concise and intuitive dom manipulation API
-- [@kjojs/input](./packages/input/): The module recognizes mouse, pointer, and touch-based various input events and delivers refined input data
-- [@kjojs/slider](./packages/slider/): slider module (like `swiper.js`)
+- [@philip21/canvas-video](./packages/canvas-video/): snapshots of the canvas can be exported as video to fit the frame
+- [@philip21/eventbus](./packages/eventbus/): universal and light(1kb) event bus module
+- [@philip21/idom](./packages/idom/): provides a concise and intuitive dom manipulation API
+- [@philip21/input](./packages/input/): The module recognizes mouse, pointer, and touch-based various input events and delivers refined input data
+- [@philip21/slider](./packages/slider/): slider module (like `swiper.js`)

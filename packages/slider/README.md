@@ -1,4 +1,4 @@
-# `@kjojs/slider`
+# `@philip21/slider`
 
 - slider module (like `swiper.js`)
 - use only css on animation (not using js computing resources)
@@ -7,10 +7,10 @@
 ## Installation
 
 ```sh
-npm install @kjojs/slider --save
+npm install @philip21/slider --save
 ```
 
-## Getting Started [(Demo)](https://devphilip21.github.io/kjojs/packages/slider/examples/)
+## Getting Started [(Demo)](https://devphilip21.github.io/philip21.js/packages/slider/examples/)
 
 ```html
 <div id="slider">
@@ -39,7 +39,7 @@ npm install @kjojs/slider --save
 ```
 
 ```js
-import Slider from '@kjojs/slider'
+import Slider from '@philip21/slider'
 
 const element = document.getElementById('slider');
 const slider = new Slider(element).on({

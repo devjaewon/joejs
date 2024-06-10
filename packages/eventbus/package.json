@@ -1,5 +1,5 @@
 {
-  "name": "@kjojs/eventbus",
+  "name": "@philip21/eventbus",
   "version": "1.1.5",
   "description": "universal and light(1kb) event bus module",
   "main": "dist/index.esm.js",
@@ -18,21 +18,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devphilip21/kjojs.git",
+    "url": "https://github.com/devphilip21/philip21.js.git",
     "directory": "packages/eventbus"
   },
   "bugs": {
-    "url": "https://github.com/devphilip21/kjojs/issues"
+    "url": "https://github.com/devphilip21/philip21.js/issues"
   },
-  "homepage": "https://github.com/devphilip21/kjojs/tree/main/packages/eventbus#readme",
+  "homepage": "https://github.com/devphilip21/philip21.js/tree/main/packages/eventbus#readme",
   "scripts": {
     "dev": "example=index rollup -w -c rollup.config.dev.mjs",
     "build": "rollup -c rollup.config.prod.mjs",
     "test": "jest --config jest.config.mjs",
     "prepublish": "npm run test && npm run build"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@kjojs/config": "1.0.0"
+    "@philip21/config": "1.0.0",
+    "rollup": "^4.18.0"
   }
 }

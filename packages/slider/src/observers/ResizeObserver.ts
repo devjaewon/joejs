@@ -1,4 +1,4 @@
-import idom, { IDom, type IDomRect } from '@kjojs/idom';
+import idom, { IDom, type IDomRect } from '@philip21/idom';
 
 interface Observer {
   (rect: IDomRect): void;

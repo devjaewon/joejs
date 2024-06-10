@@ -1,7 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "@kjojs/canvas-video",
-  "private": true,
+  "name": "@philip21/canvas-video",
   "description": "render video using canvas",
   "main": "index.js",
   "types": "index.d.ts",
@@ -18,13 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devphilip21/kjojs.git",
+    "url": "https://github.com/devphilip21/philip21.js.git",
     "directory": "packages/canvas-video"
   },
-  "dependencies": {
-    "@kjojs/eventbus": "^1.1.0"
-  },
   "devDependencies": {
-    "@kjojs/config": "1.0.0"
+    "@philip21/config": "1.0.0",
+    "rollup": "^4.18.0"
+  },
+  "dependencies": {
+    "@philip21/eventbus": "1.1.5"
   }
 }

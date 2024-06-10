@@ -1,21 +1,11 @@
 {
+  "name": "@philip21/config",
   "version": "1.0.0",
-  "name": "@kjojs/config",
   "private": true,
-  "description": "configuration for me",
+  "description": "configuration for monorepo",
   "main": "index.js",
   "types": "index.d.ts",
   "type": "module",
-  "license": "MIT",
-  "author": {
-    "name": "devphilip21",
-    "email": "philip21.dev@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/devphilip21/kjojs.git",
-    "directory": "packages/config"
-  },
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -28,6 +18,5 @@
     "rollup-plugin-serve": "^1.1.1",
     "rollup-plugin-typescript2": "^0.36.0",
     "ts-jest": "^29.1.1"
-  },
-  "devDependencies": {}
+  }
 }

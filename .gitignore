@@ -4,8 +4,15 @@
 .LSOverride
 
 # Package manager
-yarn-error.log
 node_modules
+/.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # Temp sources in local runner
 .rollup.cache

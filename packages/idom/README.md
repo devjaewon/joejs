@@ -1,4 +1,4 @@
-# `@kjojs/idom`
+# `@philip21/idom`
 
 - provides a concise and intuitive dom manipulation API
 - like jquery, but only partial features
@@ -8,13 +8,13 @@
 ## Installation
 
 ```sh
-npm install @kjojs/idom --save
+npm install @philip21/idom --save
 ```
 
 ## Getting Started
 
 ```js
-import idom from '@kjojs/idom';
+import idom from '@philip21/idom';
 
 const popupDom = idom(document.getElementById('id')); // or idom('#id')
 

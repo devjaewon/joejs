@@ -1,5 +1,5 @@
-import { EventBus } from '@kjojs/eventbus';
-import idom, { type IDom } from '@kjojs/idom';
+import { EventBus } from '@philip21/eventbus';
+import idom, { type IDom } from '@philip21/idom';
 import { HandsSourceOption } from './HandsSourceOption';
 
 export abstract class HandsSource extends EventBus<{ input: HandsSource }> {

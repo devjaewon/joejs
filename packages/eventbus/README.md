@@ -1,4 +1,4 @@
-# `@kjojs/eventbus`
+# `@philip21/eventbus`
 
 - universal and light(1kb) event bus module
 - no dependencies
@@ -9,13 +9,13 @@
 ## Installation
 
 ```sh
-npm install @kjojs/eventbus --save
+npm install @philip21/eventbus --save
 ```
 
 ## Getting Started
 
 ```ts
-import EventBus from '@kjojs/eventbus';
+import EventBus from '@philip21/eventbus';
 
 const eventBus = new EventBus();
 
